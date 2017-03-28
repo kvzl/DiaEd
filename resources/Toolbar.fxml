@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.Pane?>
+
+<fx:root fx:id="toolbar" prefHeight="40.0" prefWidth="556.0" type="ToolBar" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <Button fx:id="newButton" mnemonicParsing="false" text="New" />
+      <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
+      <Button fx:id="undoButton" mnemonicParsing="false" text="Undo" />
+      <Button fx:id="redoButton" mnemonicParsing="false" text="Redo" />
+      <Pane prefHeight="28.0" prefWidth="60.0" />
+      <Label fx:id="addText" text="Add" />
+      <Button fx:id="addStateButton" mnemonicParsing="false" text="State" />
+      <Button fx:id="addTransitionButton" mnemonicParsing="false" text="Transition" />
+  </items>
+</fx:root>

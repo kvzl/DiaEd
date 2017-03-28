@@ -1,0 +1,26 @@
+.state-circle {
+    -fx-fill: WHITE;
+    -fx-stroke: BLACK;
+    -fx-stroke-width: 2;
+}
+
+.transition > * {
+    -fx-stroke-width: 2;
+}
+
+.transition-line {
+
+}
+
+.transition-drag-point {
+    -fx-fill: WHITE;
+    -fx-stroke: BLACK;
+    -fx-opacity: 0;
+}
+
+.transition-drag-point:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 1;
+}
+
+
