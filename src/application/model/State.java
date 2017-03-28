@@ -1,14 +1,9 @@
 package application.model;
 
 import application.DragHandler;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
 /**
  * Created by ucfan on 2017/3/28.

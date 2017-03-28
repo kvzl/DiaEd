@@ -3,7 +3,6 @@ package application.model;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
 
 /**
  * Created by ucfan on 2017/3/28.
