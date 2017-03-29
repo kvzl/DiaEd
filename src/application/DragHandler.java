@@ -35,7 +35,12 @@ public class DragHandler {
 
     public void setOnPressed(EventHandler<MouseEvent> onPressed) {
         EventHandler<MouseEvent> onPressedDefault = t -> {
-            orgScene = new Point2D(t.getSceneX(), t.getSceneY());
+            Shape source = (Shape) t.getSource();
+
+            orgScene = new Point2D(
+                    t.getSceneX(),
+                    t.getSceneY()
+            );
             orgTranslate = new Point2D(
                     ((Shape)(t.getSource())).getTranslateX(),
                     ((Shape)(t.getSource())).getTranslateY()
@@ -61,14 +66,14 @@ public class DragHandler {
         EventHandler<MouseEvent> onDraggedDefault = t -> {
             double offsetX = t.getSceneX() - orgScene.getX();
             double offsetY = t.getSceneY() - orgScene.getY();
-            double newTranslateX = orgTranslate.getX() + offsetX ;
-            double newTranslateY = orgTranslate.getY() + offsetY + 40;
+            double newTranslateX = orgTranslate.getX() + offsetX;
+            double newTranslateY = orgTranslate.getY() + offsetY;
 
             ((Shape)(t.getSource())).setTranslateX(newTranslateX);
             ((Shape)(t.getSource())).setTranslateY(newTranslateY);
 
-            System.out.println("orgScene: " + orgScene);
-            System.out.println("orgTranslate: " + orgTranslate);
+            System.out.println("offset x = " + offsetX + ",  offset y = " + offsetY);
+
         };
 
         if (onDragged == null) {

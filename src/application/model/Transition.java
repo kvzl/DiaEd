@@ -21,6 +21,8 @@ public class Transition extends DiagramElement {
     DragHandler dragHandlerStart = new DragHandler();
     DragHandler dragHandlerEnd = new DragHandler();
 
+    Arrow arrow;
+
     public Point2D getDestination() {
         return destination;
     }
@@ -53,7 +55,7 @@ public class Transition extends DiagramElement {
                 end.getY()
         );
 
-        Arrow arrow = new Arrow(line, new Line(), new Line());
+        arrow = new Arrow(line, new Line(), new Line());
 
         arrow.getStyleClass().add("transition");
 
@@ -62,21 +64,13 @@ public class Transition extends DiagramElement {
 
 
         DragPoint p1 = new DragPoint(start, dragHandlerStart);
-        p1.setOnDragged(event -> {
-            double x = event.getSceneX();
-            double y = event.getSceneY();
-
-            arrow.setStart(x, y);
-            setPosition(new Point2D(x, y));
+        p1.setOnDragged(t -> {
+            relocateStart(t.getSceneX(), t.getSceneY());
         });
 
         DragPoint p2 = new DragPoint(end, dragHandlerEnd);
-        p2.setOnDragged(event -> {
-            double x = event.getSceneX();
-            double y = event.getSceneY();
-
-            arrow.setEnd(x, y);
-            setDestination(new Point2D(x, y));
+        p2.setOnDragged(t -> {
+            relocateEnd(t.getSceneX(), t.getSceneY());
         });
 
         shape = new Group(arrow, p1, p2);
@@ -84,7 +78,15 @@ public class Transition extends DiagramElement {
         canvas.getChildren().add(shape);
     }
 
+    public void relocateStart(double x, double y) {
+        arrow.setStart(x, y - 40);
+        setPosition(new Point2D(x, y - 40));
+    }
 
+    public void relocateEnd(double x, double y) {
+        arrow.setEnd(x, y - 40);
+        setDestination(new Point2D(x, y - 40));
+    }
 
 
     class Arrow extends Group {
