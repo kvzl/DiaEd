@@ -13,7 +13,7 @@ State Diagram Editor written in Java (Schoolwork)
 
 - [ ] basic editing
     - [x] ~~draw state and transition~~
-    - [ ] drag and drop
+    - [x] ~~drag and drop~~
     - [ ] edit name of state and transition
     - [ ] copy/paste/edit
 - [ ] undo/redo
