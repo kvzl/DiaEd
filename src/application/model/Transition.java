@@ -3,6 +3,7 @@ package application.model;
 import application.DragHandler;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -16,91 +17,103 @@ import javafx.scene.shape.Line;
  * Created by ucfan on 2017/3/28.
  */
 public class Transition extends DiagramElement {
-    Point2D destination;
+    private final double LENGTH = 150;
 
-    DragHandler dragHandlerStart = new DragHandler();
-    DragHandler dragHandlerEnd = new DragHandler();
+    DoubleProperty destinationX;
+    DoubleProperty destinationY;
 
     Arrow arrow;
 
-    public Point2D getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Point2D p) {
-        destination = p;
-    }
 
     public Transition() {
         super(new Point2D(150, 150));
-        setDestination(new Point2D(150, 250));
+        destinationX = new SimpleDoubleProperty(150 + LENGTH);
+        destinationY = new SimpleDoubleProperty(150);
     }
 
     public Transition(Point2D position, Point2D destination) {
         super(position);
-        setDestination(destination);
+        destinationX = new SimpleDoubleProperty(destination.getX());
+        destinationY = new SimpleDoubleProperty(destination.getY());
+    }
+
+    public double getDestinationX() {
+        return destinationX.get();
+    }
+
+    public void setDestinationX(double x) {
+        destinationX.set(x);
+    }
+
+    public double getDestinationY() {
+        return destinationY.get();
+    }
+
+    public void setDestinationY(double y) {
+        destinationY.set(y);
+    }
+
+    public DoubleProperty destinationXProperty() {
+        return destinationX;
+    }
+
+    public DoubleProperty destinationYProperty() {
+        return destinationY;
     }
 
     @Override
     public void draw(Pane canvas) {
         System.out.println("draw transition");
 
-        Point2D start = getPosition();
-        Point2D end = getDestination();
+        double startX = getPositionX();
+        double startY = getPositionY();
 
-        Line line = new Line(
-                start.getX(),
-                start.getY(),
-                end.getX(),
-                end.getY()
+        double endX = getDestinationX();
+        double endY = getDestinationY();
+
+        arrow = new Arrow(
+                new Line(startX, startY, endX, endY),
+                new Line(),
+                new Line()
         );
-
-        arrow = new Arrow(line, new Line(), new Line());
 
         arrow.getStyleClass().add("transition");
 
-        arrow.setEnd(end.getX(), end.getY());
-        arrow.setStart(start.getX(), start.getY());
+
+        arrow.startXProperty().bindBidirectional(positionXProperty());
+        arrow.startYProperty().bindBidirectional(positionYProperty());
+        arrow.endXProperty().bindBidirectional(destinationXProperty());
+        arrow.endYProperty().bindBidirectional(destinationYProperty());
 
 
-        DragPoint p1 = new DragPoint(start, dragHandlerStart);
-        p1.setOnDragged(t -> {
-            relocateStart(t.getSceneX(), t.getSceneY());
+        DragPoint p1 = new DragPoint(new Point2D(startX, startY), t -> {
+            setPositionX(t.getSceneX());
+            setPositionY(t.getSceneY() - 40);
         });
 
-        DragPoint p2 = new DragPoint(end, dragHandlerEnd);
-        p2.setOnDragged(t -> {
-            relocateEnd(t.getSceneX(), t.getSceneY());
+
+        DragPoint p2 = new DragPoint(new Point2D(endX, endY), t -> {
+            setDestinationX(t.getSceneX());
+            setDestinationY(t.getSceneY() - 40);
         });
+
 
         shape = new Group(arrow, p1, p2);
-
         canvas.getChildren().add(shape);
     }
 
-    public void relocateStart(double x, double y) {
-        arrow.setStart(x, y - 40);
-        setPosition(new Point2D(x, y - 40));
-    }
 
-    public void relocateEnd(double x, double y) {
-        arrow.setEnd(x, y - 40);
-        setDestination(new Point2D(x, y - 40));
-    }
-
-
-    class Arrow extends Group {
+    private class Arrow extends Group {
 
         private final Line line;
 
         private static final double arrowLength = 20;
         private static final double arrowWidth = 7;
 
-
-
         private Arrow(Line line, Line arrow1, Line arrow2) {
             super(line, arrow1, arrow2);
             this.line = line;
+
             InvalidationListener updater = o -> {
                 double ex = getEndX();
                 double ey = getEndY();
@@ -118,7 +131,8 @@ public class Transition extends DiagramElement {
                     arrow1.setStartY(ey);
                     arrow2.setStartX(ex);
                     arrow2.setStartY(ey);
-                } else {
+                }
+                else {
                     double factor = arrowLength / Math.hypot(sx-ex, sy-ey);
                     double factorO = arrowWidth / Math.hypot(sx-ex, sy-ey);
 
@@ -126,7 +140,7 @@ public class Transition extends DiagramElement {
                     double dx = (sx - ex) * factor;
                     double dy = (sy - ey) * factor;
 
-                    // part ortogonal to main line
+                    // part orthogonal to main line
                     double ox = (sx - ex) * factorO;
                     double oy = (sy - ey) * factorO;
 
@@ -145,18 +159,7 @@ public class Transition extends DiagramElement {
             updater.invalidated(null);
         }
 
-        // start/end properties
-
-        public void setStart(double startX, double startY) {
-            line.setStartX(startX);
-            line.setStartY(startY);
-        }
-        public void setEnd(double endX, double endY) {
-            line.setEndX(endX);
-            line.setEndY(endY);
-        }
-
-
+        // start/endProperty properties
         public final void setStartX(double value) {
             line.setStartX(value);
         }
@@ -207,38 +210,18 @@ public class Transition extends DiagramElement {
 
     }
 
-    class DragPoint extends Circle {
-        DragHandler dragHandler;
-        public DragPoint(Point2D position, DragHandler dragHandler) {
+    private class DragPoint extends Circle {
+        DragHandler dragHandler = new DragHandler();
+
+        public DragPoint(Point2D position, EventHandler<MouseEvent> onDragged) {
             super(position.getX(), position.getY(), 5);
             this.getStyleClass().add("transition-drag-point");
-            this.dragHandler = dragHandler;
-            this.setOnPressed(null);
-            this.setOnDragged(null);
-        }
 
-        public void setOnPressed(EventHandler<MouseEvent> handler) {
-            if (handler == null) {
-                this.setOnMousePressed(dragHandler.getOnPressed());
-            }
-            else {
-                this.setOnMousePressed(event -> {
-                    dragHandler.getOnPressed().handle(event);
-                    handler.handle(event);
-                });
-            }
-        }
-
-        public void setOnDragged(EventHandler<MouseEvent> handler) {
-            if (handler == null) {
-                this.setOnMouseDragged(dragHandler.getOnDragged());
-            }
-            else {
-                this.setOnMouseDragged(event -> {
-                    dragHandler.getOnDragged().handle(event);
-                    handler.handle(event);
-                });
-            }
+            this.setOnMousePressed(dragHandler.getOnPressed());
+            this.setOnMouseDragged(event -> {
+                dragHandler.getOnDragged().handle(event);
+                onDragged.handle(event);
+            });
         }
     }
 

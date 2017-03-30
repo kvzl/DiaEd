@@ -1,7 +1,8 @@
 package application;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Shape;
 
@@ -9,81 +10,41 @@ import javafx.scene.shape.Shape;
  * Created by ucfan on 2017/3/28.
  */
 
+
+/* NOTE: Favor composition over inheritance!! */
+
 public class DragHandler {
-    Point2D orgScene;
-    Point2D orgTranslate;
+    private double oldSceneX;
+    private double oldSceneY;
+    private double oldTranslateX;
+    private double oldTranslateY;
 
-    public Point2D getOrgTranslate() {
-        return orgTranslate;
-    }
+    private DoubleProperty newTranslateX = new SimpleDoubleProperty();
+    private DoubleProperty newTranslateY = new SimpleDoubleProperty();
 
-    private EventHandler<MouseEvent> onPressed;
-    private EventHandler<MouseEvent> onDragged;
+    private EventHandler<MouseEvent> onPressed = t -> {
+        oldSceneX = t.getSceneX();
+        oldSceneY = t.getSceneY();
+        oldTranslateX = ((Shape)t.getSource()).getTranslateX();
+        oldTranslateY = ((Shape)t.getSource()).getTranslateY();
+    };
+
+    private EventHandler<MouseEvent> onDragged = t -> {
+        double offsetX = t.getSceneX() - oldSceneX;
+        double offsetY = t.getSceneY() - oldSceneY;
+        newTranslateX.set(oldTranslateX + offsetX);
+        newTranslateY.set(oldTranslateY + offsetY);
+
+        ((Shape)t.getSource()).setTranslateX(newTranslateX.get());
+        ((Shape)t.getSource()).setTranslateY(newTranslateY.get());
+    };
 
     public EventHandler<MouseEvent> getOnPressed() {
         return onPressed;
     }
+
     public EventHandler<MouseEvent> getOnDragged() {
         return onDragged;
     }
 
-
-    public DragHandler() {
-        setOnPressed(null);
-        setOnDragged(null);
-    }
-
-    public void setOnPressed(EventHandler<MouseEvent> onPressed) {
-        EventHandler<MouseEvent> onPressedDefault = t -> {
-            Shape source = (Shape) t.getSource();
-
-            orgScene = new Point2D(
-                    t.getSceneX(),
-                    t.getSceneY()
-            );
-            orgTranslate = new Point2D(
-                    ((Shape)(t.getSource())).getTranslateX(),
-                    ((Shape)(t.getSource())).getTranslateY()
-            );
-
-            System.out.println("orgScene: " + orgScene);
-            System.out.println("orgTranslate: " + orgTranslate);
-        };
-
-        if (onPressed == null) {
-            this.onPressed = onPressedDefault;
-        }
-        else {
-            this.onPressed = t -> {
-                onPressedDefault.handle(t);
-                onPressed.handle(t);
-            };
-        }
-    }
-
-
-    public void setOnDragged(EventHandler<MouseEvent> onDragged) {
-        EventHandler<MouseEvent> onDraggedDefault = t -> {
-            double offsetX = t.getSceneX() - orgScene.getX();
-            double offsetY = t.getSceneY() - orgScene.getY();
-            double newTranslateX = orgTranslate.getX() + offsetX;
-            double newTranslateY = orgTranslate.getY() + offsetY;
-
-            ((Shape)(t.getSource())).setTranslateX(newTranslateX);
-            ((Shape)(t.getSource())).setTranslateY(newTranslateY);
-
-            System.out.println("offset x = " + offsetX + ",  offset y = " + offsetY);
-
-        };
-
-        if (onDragged == null) {
-            this.onDragged = onDraggedDefault;
-        }
-        else {
-            this.onDragged = t -> {
-                onDraggedDefault.handle(t);
-                onDragged.handle(t);
-            };
-        }
-    }
 }

@@ -1,5 +1,7 @@
 package application.model;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -9,26 +11,42 @@ import javafx.scene.layout.Pane;
  */
 public abstract class DiagramElement {
     protected Node shape;
-    private Point2D position;
+
+    private DoubleProperty positionX;
+    private DoubleProperty positionY;
 
     public DiagramElement() {
-        buildEvents();
     }
 
     public DiagramElement(Point2D position) {
-        this();
-        this.position = position;
+        positionX = new SimpleDoubleProperty(position.getX());
+        positionY= new SimpleDoubleProperty(position.getY());
     }
 
-    public Point2D getPosition() {
-        return position;
+    public double getPositionX() {
+        return positionX.get();
     }
 
-    public void setPosition(Point2D p) {
-        position = p;
+    public void setPositionX(double x){
+        positionX.set(x);
+    }
+
+    public double getPositionY() {
+        return positionY.get();
+    }
+
+    public void setPositionY(double y){
+        positionY.set(y);
+    }
+
+
+    public DoubleProperty positionXProperty() {
+        return positionX;
+    }
+
+    public DoubleProperty positionYProperty() {
+        return positionY;
     }
 
     abstract public void draw(Pane pane);
-
-    protected void buildEvents() { };
 }

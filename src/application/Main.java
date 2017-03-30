@@ -49,8 +49,19 @@ public class Main extends Application {
 		Canvas canvas = new Canvas();
 		Toolbar toolbar = new Toolbar(canvas.getCanvas());
 
+		bindToolbarActions(toolbar, canvas);
+
+        root.setCenter(canvas);
+		root.setTop(toolbar);
+
+//        StateDiagram diagram = initData();
+//        diagram.forEach(element -> element.draw(canvas));
+
+	}
+
+	private void bindToolbarActions(Toolbar toolbar, Canvas canvas) {
 		toolbar.setOnAddState(event -> {
-            System.out.println("add state");
+			System.out.println("add state");
 
             State state = new State();
             state.draw(canvas);
@@ -63,12 +74,6 @@ public class Main extends Application {
             Transition trans = new Transition();
             trans.draw(canvas);
         });
-
-        root.setCenter(canvas);
-		root.setTop(toolbar);
-
-//        StateDiagram diagram = initData();
-//        diagram.forEach(element -> element.draw(canvas));
 
 	}
 

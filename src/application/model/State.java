@@ -8,7 +8,9 @@ import javafx.scene.shape.Circle;
 /**
  * Created by ucfan on 2017/3/28.
  */
+
 public class State extends DiagramElement {
+    private final double RADIUS = 50;
 
     DragHandler dragHandler = new DragHandler();
 
@@ -23,16 +25,17 @@ public class State extends DiagramElement {
 
     @Override
     public void draw(Pane canvas) {
-        Point2D position = getPosition();
-        shape = new Circle(position.getX(), position.getY(), 50);
-
+        shape = new Circle(getPositionX(), getPositionY(), RADIUS);
         shape.getStyleClass().add("state-circle");
 
         shape.setOnMousePressed(dragHandler.getOnPressed());
-        shape.setOnMouseDragged(dragHandler.getOnDragged());
+        shape.setOnMouseDragged(event -> {
+            setPositionX(event.getSceneX());
+            setPositionY(event.getSceneY() - 40);
+            dragHandler.getOnDragged().handle(event);
+        });
 
         canvas.getChildren().add(shape);
-
 
         System.out.println("draw state");
     }
@@ -40,5 +43,6 @@ public class State extends DiagramElement {
 
 
 }
+
 
 

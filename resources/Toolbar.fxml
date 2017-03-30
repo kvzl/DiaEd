@@ -12,7 +12,6 @@
       <Button fx:id="undoButton" mnemonicParsing="false" text="Undo" />
       <Button fx:id="redoButton" mnemonicParsing="false" text="Redo" />
       <Pane prefHeight="28.0" prefWidth="60.0" />
-      <Button fx:id="copyButton" mnemonicParsing="false" text="Copy" />
       <Button fx:id="editButton" mnemonicParsing="false" text="Edit" />
       <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete" />
       <Pane prefHeight="28.0" prefWidth="60.0" />

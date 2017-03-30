@@ -48,7 +48,7 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         return null;
     }
 
-    class StateDiagramIterator implements Iterator<DiagramElement> {
+    public class StateDiagramIterator implements Iterator<DiagramElement> {
         private int index = 0;
 
         @Override

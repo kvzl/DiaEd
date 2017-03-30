@@ -1,7 +1,5 @@
 package application;
 
-import application.model.State;
-import application.model.Transition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
