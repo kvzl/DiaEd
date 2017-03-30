@@ -49,6 +49,21 @@ public class Main extends Application {
 		Canvas canvas = new Canvas();
 		Toolbar toolbar = new Toolbar(canvas.getCanvas());
 
+		toolbar.setOnAddState(event -> {
+            System.out.println("add state");
+
+            State state = new State();
+            state.draw(canvas);
+
+        });
+
+		toolbar.setOnAddTranstion(event -> {
+            System.out.println("add transition");
+
+            Transition trans = new Transition();
+            trans.draw(canvas);
+        });
+
         root.setCenter(canvas);
 		root.setTop(toolbar);
 

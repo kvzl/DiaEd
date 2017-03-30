@@ -2,6 +2,8 @@ package application;
 
 import application.model.State;
 import application.model.Transition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -57,21 +59,14 @@ public class Toolbar extends ToolBar {
 
     @FXML
 	private void initialize() {
-        addStateButton.setOnAction(event -> {
-            System.out.println("add state");
+    }
 
-            State state = new State();
-            state.draw(canvas);
+    public void setOnAddState(EventHandler<ActionEvent> event) {
+        addStateButton.setOnAction(event);
+    }
 
-        });
-
-        addTransitionButton.setOnAction(event -> {
-            System.out.println("add transition");
-
-            Transition trans = new Transition();
-            trans.draw(canvas);
-        });
-
+    public void setOnAddTranstion(EventHandler<ActionEvent> event) {
+        addTransitionButton.setOnAction(event);
     }
 
 }
