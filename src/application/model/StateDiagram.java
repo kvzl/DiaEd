@@ -1,5 +1,6 @@
 package application.model;
 
+import application.Store;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
 
 
     @Override
-    public void draw(Pane pane) {
+    public void draw(Store store) {
     }
 
     @Override

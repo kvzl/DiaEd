@@ -1,6 +1,7 @@
 package application.model;
 
 import application.DragHandler;
+import application.Store;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -62,7 +63,8 @@ public class Transition extends DiagramElement {
     }
 
     @Override
-    public void draw(Pane canvas) {
+    public void draw(Store store) {
+        Pane canvas = store.getCanvas();
         System.out.println("draw transition");
 
         double startX = getPositionX();

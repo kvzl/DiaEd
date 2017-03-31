@@ -13,7 +13,11 @@ public class Canvas extends AnchorPane {
     @FXML
     private AnchorPane canvas;
 
-    public Canvas() {
+    Store store;
+
+    public Canvas(Store store) {
+        this.store = store;
+
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/Canvas.fxml")
         );
@@ -27,6 +31,13 @@ public class Canvas extends AnchorPane {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    @FXML
+    private void initialize() {
+        this.setOnMouseClicked(event -> {
+            System.out.println(event.getSource());
+        });
     }
 
     public AnchorPane getCanvas() {

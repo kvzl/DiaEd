@@ -43,8 +43,8 @@ public class Toolbar extends ToolBar {
     private AnchorPane canvas;
 
 
-    public Toolbar(AnchorPane canvas) {
-        this.canvas = canvas;
+    public Toolbar(Store store) {
+        this.canvas = store.getCanvas();
 
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/Toolbar.fxml")

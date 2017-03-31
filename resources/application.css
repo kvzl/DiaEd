@@ -1,11 +1,19 @@
 .state-circle {
     -fx-fill: WHITE;
-    -fx-stroke: BLACK;
-    -fx-stroke-width: 2;
+    -fx-stroke: #555555;
+    -fx-stroke-width: 1.5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0.0, 0, 1);
+
+}
+
+.state-circle.selected {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 157, 255, 0.3), 15, 0.5, 0, 0) !important;
 }
 
 .transition > * {
-    -fx-stroke-width: 2;
+    -fx-stroke: #333333;
+    -fx-stroke-width: 1.5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0.0, 0, 1);
 }
 
 .transition-line {

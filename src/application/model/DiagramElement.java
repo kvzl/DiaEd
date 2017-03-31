@@ -1,10 +1,14 @@
 package application.model;
 
+import application.Store;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+
 
 /**
  * Created by ucfan on 2017/3/28.
@@ -20,7 +24,7 @@ public abstract class DiagramElement {
 
     public DiagramElement(Point2D position) {
         positionX = new SimpleDoubleProperty(position.getX());
-        positionY= new SimpleDoubleProperty(position.getY());
+        positionY = new SimpleDoubleProperty(position.getY());
     }
 
     public double getPositionX() {
@@ -48,5 +52,5 @@ public abstract class DiagramElement {
         return positionY;
     }
 
-    abstract public void draw(Pane pane);
+    abstract public void draw(Store store);
 }
