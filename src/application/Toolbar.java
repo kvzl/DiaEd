@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 
+import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -25,6 +26,12 @@ public class Toolbar extends ToolBar {
 
     @FXML
     Button redoButton;
+
+    @FXML
+    Button editButton;
+
+    @FXML
+    Button deleteButton;
 
     @FXML
     Button addStateButton;
@@ -57,6 +64,31 @@ public class Toolbar extends ToolBar {
 
     @FXML
 	private void initialize() {
+    }
+
+
+    public void setOnNew(EventHandler<ActionEvent> event) {
+        newButton.setOnAction(event);
+    }
+
+    public void setOnSave(EventHandler<ActionEvent> event) {
+        saveButton.setOnAction(event);
+    }
+
+    public void setOnUndo(EventHandler<ActionEvent> event) {
+        undoButton.setOnAction(event);
+    }
+
+    public void setOnRedo(EventHandler<ActionEvent> event) {
+        redoButton.setOnAction(event);
+    }
+
+    public void setOnEdit(EventHandler<ActionEvent> event) {
+        editButton.setOnAction(event);
+    }
+
+    public void setOnDelete(EventHandler<ActionEvent> event) {
+        deleteButton.setOnAction(event);
     }
 
     public void setOnAddState(EventHandler<ActionEvent> event) {

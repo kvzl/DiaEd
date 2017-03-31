@@ -36,11 +36,7 @@ public class State extends DiagramElement {
         });
 
         canvas.getChildren().add(shape);
-
-        System.out.println("draw state");
     }
-
-
 
 }
 

@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
-
     private StateDiagram initData() {
         State state1 = new State(new Point2D(100, 100));
 
@@ -56,25 +55,18 @@ public class Main extends Application {
 
 //        StateDiagram diagram = initData();
 //        diagram.forEach(element -> element.draw(canvas));
-
 	}
 
 	private void bindToolbarActions(Toolbar toolbar, Canvas canvas) {
 		toolbar.setOnAddState(event -> {
-			System.out.println("add state");
-
             State state = new State();
             state.draw(canvas);
-
         });
 
 		toolbar.setOnAddTranstion(event -> {
-            System.out.println("add transition");
-
             Transition trans = new Transition();
             trans.draw(canvas);
         });
-
 	}
 
 	public static void main(String[] args) {
