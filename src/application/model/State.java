@@ -47,7 +47,6 @@ public class State extends DiagramElement {
         store.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == shape) {
                 shape.getStyleClass().add("selected");
-                System.out.println(shape);
             }
             else {
                 shape.getStyleClass().remove("selected");

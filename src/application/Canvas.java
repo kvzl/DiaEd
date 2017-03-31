@@ -36,7 +36,7 @@ public class Canvas extends AnchorPane {
     @FXML
     private void initialize() {
         this.setOnMouseClicked(event -> {
-            System.out.println(event.getSource());
+            store.setSelected(null);
         });
     }
 
