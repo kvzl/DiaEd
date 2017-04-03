@@ -15,9 +15,16 @@ import javafx.scene.shape.Line;
  * Created by ucfan on 2017/4/3.
  */
 public class TransitionViewModel extends ViewModel<Transition> {
+    // 箭頭
     private Arrow arrow;
+
+    // 拖曳點（尾端）
     private DragPoint p1;
+
+    // 拖曳點（頭部）
     private DragPoint p2;
+
+    // 處理拖曳行為
     private DragHandler rootDragHandler;
 
     public TransitionViewModel(Transition model) {
@@ -47,9 +54,11 @@ public class TransitionViewModel extends ViewModel<Transition> {
     private void bindListeners(Store store) {
         rootDragHandler = new DragHandler(arrow);
 
+        // 拖曳前儲存狀態
         p1.setOnPressed(event -> {
             store.saveHistory();
         });
+        // 拖曳點移動時更新箭頭位置
         p1.setOnDragged(event -> {
             arrow.setStartX(model.getPositionX() - arrow.getTranslateX());
             arrow.setStartY(model.getPositionY() - arrow.getTranslateY());
@@ -63,13 +72,14 @@ public class TransitionViewModel extends ViewModel<Transition> {
             arrow.setEndY(model.getDestinationY() - arrow.getTranslateY());
         });
 
+
+        // 拖曳箭頭時同時移動拖曳點
         arrow.setOnMousePressed(event -> {
             store.saveHistory();
             p1.dragHandler.getOnPressed().handle(event);
             p2.dragHandler.getOnPressed().handle(event);
             rootDragHandler.getOnPressed().handle(event);
         });
-
         arrow.setOnMouseDragged(event -> {
             p1.dragHandler.getOnDragged().handle(event);
             p2.dragHandler.getOnDragged().handle(event);
@@ -197,35 +207,26 @@ public class TransitionViewModel extends ViewModel<Transition> {
 
         public DragPoint(DoubleProperty xProperty, DoubleProperty yProperty) {
             super(xProperty.get(), yProperty.get(), 5);
-
             this.getStyleClass().add("transition-drag-point");
-
             dragHandler.bindToPoint(this, xProperty, yProperty);
-
         }
 
         public void setOnPressed(EventHandler<MouseEvent> handler) {
-            if (handler == null) {
-                this.setOnMousePressed(dragHandler.getOnPressed());
-            }
-            else {
-                this.setOnMousePressed(event -> {
-                    dragHandler.getOnPressed().handle(event);
+            this.setOnMousePressed(event -> {
+                dragHandler.getOnPressed().handle(event);
+                if (handler != null) {
                     handler.handle(event);
-                });
-            }
+                }
+            });
         }
 
         public void setOnDragged(EventHandler<MouseEvent> handler) {
-            if (handler == null) {
-                this.setOnMouseDragged(dragHandler.getOnDragged());
-            }
-            else {
-                this.setOnMouseDragged(event -> {
-                    dragHandler.getOnDragged().handle(event);
+            this.setOnMouseDragged(event -> {
+                dragHandler.getOnDragged().handle(event);
+                if (handler != null) {
                     handler.handle(event);
-                });
-            }
+                }
+            });
         }
     }
 }

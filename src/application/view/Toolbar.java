@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
-import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
@@ -42,12 +41,10 @@ public class Toolbar extends ToolBar {
     @FXML
     Button addTransitionButton;
 
-
-    private AnchorPane canvas;
-
+    private Store store;
 
     public Toolbar(Store store) {
-        this.canvas = store.getCanvas();
+        this.store = store;
 
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/Toolbar.fxml")
@@ -61,14 +58,12 @@ public class Toolbar extends ToolBar {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-
     }
 
 
     @FXML
 	private void initialize() {
     }
-
 
     public void setOnNew(EventHandler<ActionEvent> event) {
         newButton.setOnAction(event);

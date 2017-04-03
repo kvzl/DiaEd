@@ -33,6 +33,7 @@ public class Canvas extends AnchorPane {
 
     @FXML
     private void initialize() {
+        // 點擊到畫布時，取消選取狀態
         this.setOnMouseClicked(event -> {
             store.setSelected(null);
         });

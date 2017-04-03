@@ -85,7 +85,7 @@ public class Store {
 
 
     // 綁定工具列按鈕的各種 observer
-    private void bindToolbarActions() {
+    public void bindToolbarActions() {
         // 開新檔案（就是清空啦）
         toolbar.setOnNew(event -> {
             diagram = new StateDiagram();
@@ -120,6 +120,7 @@ public class Store {
             }
         });
 
+        // 刪除
         toolbar.setOnDelete(event -> {
             saveHistory();
             diagram.remove(selected.get());
