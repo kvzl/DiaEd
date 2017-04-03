@@ -6,46 +6,46 @@ import java.util.Stack;
  * Created by ucfan on 2017/4/3.
  */
 public class EditHistory {
-    private Stack<DiagramState> histories = new Stack<>();
-    private Stack<DiagramState> redoStack = new Stack<>();
+    private Stack<Memento> undoStack = new Stack<>();
+    private Stack<Memento> redoStack = new Stack<>();
 
 
     public boolean undoable() {
-        return !histories.empty();
+        return !undoStack.empty();
     }
 
     public boolean redoable() {
         return !redoStack.empty();
     }
 
-    public void push(DiagramState state) {
-        histories.push(state);
+    public void push(Memento current) {
+        undoStack.push(current);
 
         if (!redoStack.empty()) {
             redoStack.clear();
         }
     }
 
-    public DiagramState undo(DiagramState current) {
+    public Memento undo(Memento current) {
         if (!undoable()) {
             return null;
         }
-        DiagramState state = histories.pop();
+        Memento memento = undoStack.pop();
         redoStack.push(current);
-        return state;
+        return memento;
     }
 
-    public DiagramState redo(DiagramState current) {
+    public Memento redo(Memento current) {
         if (!redoable()) {
             return null;
         }
-        DiagramState state = redoStack.pop();
-        histories.push(current);
-        return state;
+        Memento memento = redoStack.pop();
+        undoStack.push(current);
+        return memento;
     }
 
     public void reset() {
-        histories.clear();
+        undoStack.clear();
         redoStack.clear();
     }
 }

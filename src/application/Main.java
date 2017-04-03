@@ -1,11 +1,6 @@
 package application;
 
-import application.model.*;
-import application.viewModel.StateDiagramViewModel;
-import application.viewModel.StateViewModel;
-import application.viewModel.ViewModel;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -26,6 +21,7 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 
+		// 先載入 Mediator
 		Store store = new Store();
 
         root.setCenter(store.getCanvas());

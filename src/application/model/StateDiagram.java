@@ -2,13 +2,14 @@ package application.model;
 
 import application.history.DiagramState;
 import application.Store;
+import application.history.Memento;
 import application.history.Originator;
 import application.viewModel.StateDiagramViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator<DiagramState> {
+public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator {
     private List<DiagramElement> children = new ArrayList<>();
 
     public void add(DiagramElement element) {
@@ -40,7 +41,8 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
     }
 
     @Override
-    public DiagramState save() {
+    public Memento save() {
+        Memento memento = new Memento();
         DiagramState backup = new DiagramState();
 
         Iterator<DiagramElement> iter = iterator();
@@ -49,13 +51,16 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
             backup.add(element.clone());
         }
 
-        return backup;
+        memento.setState(backup);
+        return memento;
     }
 
     @Override
-    public void restore(DiagramState backup) {
-        children = backup;
+    public void restore(Memento memento) {
+        children = memento.getState();
     }
+
+
 
     @Override
     public Iterator<DiagramElement> iterator() {
