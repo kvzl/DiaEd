@@ -4,6 +4,8 @@ import application.Store;
 import application.viewModel.ViewModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 
 /**
@@ -12,6 +14,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class DiagramElement {
     private DoubleProperty positionX = new SimpleDoubleProperty();
     private DoubleProperty positionY = new SimpleDoubleProperty();
+
+    private StringProperty name = new SimpleStringProperty("");
 
     // View Model 負責處理繪圖、事件綁定、資料綁定
     protected ViewModel viewModel;
@@ -46,6 +50,18 @@ public abstract class DiagramElement {
 
     public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
+    }
+
+    public String getName() {
+        return name.get();
+    }
+
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
+        return name;
     }
 
     abstract public void draw(Store store);

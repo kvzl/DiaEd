@@ -7,7 +7,9 @@ import application.model.State;
 import application.model.StateDiagram;
 import application.model.Transition;
 import application.view.Canvas;
+import application.view.EditableText;
 import application.view.Toolbar;
+import application.viewModel.ViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -29,6 +31,21 @@ public class Store {
 
     // 記錄目前選取的元件
     private ObjectProperty<DiagramElement> selected = new SimpleObjectProperty<>();
+
+    private ObjectProperty<DiagramElement> editing = new SimpleObjectProperty<>();
+
+    public DiagramElement getEditing() {
+        return this.editing.get();
+    }
+
+    public void setEditing(DiagramElement editing) {
+        this.editing.set(editing);
+    }
+
+    public ObjectProperty<DiagramElement> editingProperty() {
+        return editing;
+    }
+
 
     // 狀態圖 data
     private StateDiagram diagram = new StateDiagram();
@@ -126,10 +143,14 @@ public class Store {
             }
         });
 
+        toolbar.setOnEdit(event -> {
+            setEditing(getSelected());
+        });
+
         // 刪除
         toolbar.setOnDelete(event -> {
             saveHistory();
-            diagram.remove(selected.get());
+            diagram.remove(getSelected());
             setSelected(null);
             redraw();
         });
@@ -155,18 +176,21 @@ public class Store {
     // 範本資料
     private StateDiagram initData() {
         State state1 = new State();
-        state1.setPositionX(100);
-        state1.setPositionY(100);
+        state1.setPositionX(200);
+        state1.setPositionY(300);
+        state1.setName("state1");
 
         State state2 = new State();
-        state2.setPositionX(230);
-        state2.setPositionY(230);
+        state2.setPositionX(600);
+        state2.setPositionY(300);
+        state2.setName("state2");
 
         Transition trans1 = new Transition();
-        trans1.setPositionX(250);
-        trans1.setPositionY(250);
-        trans1.setDestinationX(170);
-        trans1.setDestinationY(170);
+        trans1.setPositionX(260);
+        trans1.setPositionY(300);
+        trans1.setDestinationX(540);
+        trans1.setDestinationY(300);
+        trans1.setName("trans2");
 
         StateDiagram diagram = new StateDiagram();
         diagram.add(state1);

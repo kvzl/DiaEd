@@ -6,6 +6,35 @@
     -fx-cursor: hand;
 }
 
+.state-text {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+    -fx-alignment: center;
+    -fx-font-size: 15;
+}
+
+.state-text-mask {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+
+}
+
+.state-text-mask:hover {
+    -fx-border-color: rgba(0, 0, 0, 0.4);
+    -fx-border-width: 1;
+}
+
+.editing .state-text-mask {
+}
+
+.editing .state-text {
+    -fx-border-style: solid;
+    -fx-border-color: rgba(0, 0, 0, 0.4);
+    -fx-border-witdh: 1;
+}
+
 .selected {
     -fx-effect: dropshadow(three-pass-box, rgba(0, 157, 255, 0.3), 15, 0.5, 0, 0) !important;
 }

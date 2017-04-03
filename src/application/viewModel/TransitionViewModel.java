@@ -2,10 +2,13 @@ package application.viewModel;
 
 import application.Store;
 import application.model.Transition;
+import application.view.EditableText;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -23,8 +26,15 @@ public class TransitionViewModel extends ViewModel<Transition> {
     // 拖曳點（頭部）
     private DragPoint p2;
 
+    // 文字部分
+    private EditableText text;
+
     // 處理拖曳行為
     private DragHandler rootDragHandler;
+
+
+    private DoubleProperty textX;
+    private DoubleProperty textY;
 
     public TransitionViewModel(Transition model) {
         super(model);
@@ -42,7 +52,13 @@ public class TransitionViewModel extends ViewModel<Transition> {
         p1 = new DragPoint(model.positionXProperty(), model.positionYProperty());
         p2 = new DragPoint(model.destinationXProperty(), model.destinationYProperty());
 
-        shape = new Group(arrow, p1, p2);
+        textX = new SimpleDoubleProperty((model.getPositionX() + model.getDestinationX()) / 2);
+        textY = new SimpleDoubleProperty((model.getPositionY() + model.getDestinationY()) / 2 - 15);
+        text = new EditableText(textX, textY);
+        text.setText(model.getName());
+        text.setWidth(150);
+
+        shape = new Group(arrow, p1, p2, text);
 
         bindListeners(store);
 
@@ -70,23 +86,50 @@ public class TransitionViewModel extends ViewModel<Transition> {
             arrow.setEndY(model.getDestinationY() - arrow.getTranslateY());
         });
 
-
         // 拖曳箭頭時同時移動拖曳點
         arrow.setOnMousePressed(event -> {
             store.saveHistory();
             p1.dragHandler.getOnPressed().handle(event);
             p2.dragHandler.getOnPressed().handle(event);
+            text.getDragHandler().getOnPressed().handle(event);
             rootDragHandler.getOnPressed().handle(event);
         });
         arrow.setOnMouseDragged(event -> {
             p1.dragHandler.getOnDragged().handle(event);
             p2.dragHandler.getOnDragged().handle(event);
+            text.getDragHandler().getOnDragged().handle(event);
             rootDragHandler.getOnDragged().handle(event);
         });
+
+        text.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                store.setEditing(model);
+                text.requestFocus();
+            }
+            event.consume();
+        });
+
+        text.setOnPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                store.setEditing(null);
+            }
+            else {
+                if (store.getEditing() != null) {
+                    store.saveHistory();
+                }
+            }
+        });
+
+        text.bindText(model.nameProperty());
 
         rootDragHandler.bindToPoint(arrow);
 
         arrow.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                store.setEditing(model);
+                text.requestFocus();
+            }
+
             store.setSelected(model);
             event.consume();
         });
@@ -99,6 +142,11 @@ public class TransitionViewModel extends ViewModel<Transition> {
                 arrow.getStyleClass().remove("selected");
             }
         }));
+
+        store.editingProperty().addListener(((observable, oldValue, newValue) -> {
+            text.setEditable((newValue == model));
+        }));
+
     }
 
     private class Arrow extends Group {

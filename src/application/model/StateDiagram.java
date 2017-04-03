@@ -51,7 +51,6 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         Iterator<DiagramElement> iter = iterator();
         while (iter.hasNext()) {
             DiagramElement element = iter.next();
-
             // deep copying
             backup.add(element.clone());
         }

@@ -19,6 +19,7 @@ public class Transition extends DiagramElement {
         setPositionY(150);
         setDestinationX(350);
         setDestinationY(150);
+        setName("TRANSITION");
     }
 
     public double getDestinationX() {
@@ -60,6 +61,7 @@ public class Transition extends DiagramElement {
         transition.setPositionY(getPositionY());
         transition.setDestinationX(getDestinationX());
         transition.setDestinationY(getDestinationY());
+        transition.setName(new String(getName()));
         return transition;
     }
 }

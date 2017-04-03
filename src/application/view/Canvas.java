@@ -36,6 +36,7 @@ public class Canvas extends AnchorPane {
         // 點擊到畫布時，取消選取狀態
         this.setOnMouseClicked(event -> {
             store.setSelected(null);
+            store.setEditing(null);
         });
     }
 

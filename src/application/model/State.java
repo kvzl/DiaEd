@@ -12,6 +12,7 @@ public class State extends DiagramElement {
         // 預設座標
         setPositionX(150);
         setPositionY(150);
+        setName("STATE");
     }
 
     @Override
@@ -27,6 +28,7 @@ public class State extends DiagramElement {
         State state = new State();
         state.setPositionX(getPositionX());
         state.setPositionY(getPositionY());
+        state.setName(new String(getName()));
         return state;
     }
 }

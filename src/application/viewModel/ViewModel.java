@@ -20,5 +20,9 @@ abstract public class ViewModel<T extends DiagramElement> {
         this.model = model;
     }
 
+    public T getModel() {
+        return model;
+    }
+
     abstract public void draw(Store store);
 }
