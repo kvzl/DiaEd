@@ -2,6 +2,8 @@
 
 State Diagram Editor written in Java (Schoolwork)
 
+![](screenshot.png)
+
 
 ## Environment
 
