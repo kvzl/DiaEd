@@ -2,7 +2,6 @@ package application.viewModel;
 
 import application.Store;
 import application.model.State;
-import application.view.Canvas;
 import javafx.scene.shape.Circle;
 
 /**

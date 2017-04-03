@@ -2,7 +2,6 @@ package application.viewModel;
 
 import application.Store;
 import application.model.Transition;
-import application.view.Canvas;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;

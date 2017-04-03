@@ -14,6 +14,7 @@ public class Transition extends DiagramElement {
     private DoubleProperty destinationY = new SimpleDoubleProperty();
 
     public Transition() {
+        // 預設座標
         setPositionX(150);
         setPositionY(150);
         setDestinationX(350);

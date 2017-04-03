@@ -7,20 +7,25 @@ import application.history.Originator;
 import application.viewModel.StateDiagramViewModel;
 
 public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator {
+    // 狀態圖的狀態（子元素）
     private DiagramState children = new DiagramState();
 
+    // 新增子元素
     public void add(DiagramElement element) {
         children.add(element);
     }
 
+    // 移除子元素
     public void remove(DiagramElement element) {
         children.remove(element);
     }
 
+    // 取得子元素（以索引）
     public DiagramElement get(int index) {
         return children.get(index);
     }
 
+    // 取得子元素（以 ref）
     public DiagramElement get(DiagramElement element) {
         int index = children.indexOf(element);
         if (index < 0) {
@@ -37,6 +42,7 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         viewModel.draw(store);
     }
 
+    // 以 Memento 儲存目前狀態
     @Override
     public Memento save() {
         Memento memento = new Memento();
@@ -45,6 +51,8 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         Iterator<DiagramElement> iter = iterator();
         while (iter.hasNext()) {
             DiagramElement element = iter.next();
+
+            // deep copying
             backup.add(element.clone());
         }
 
@@ -52,6 +60,7 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         return memento;
     }
 
+    // 以 Memento 還原狀態
     @Override
     public void restore(Memento memento) {
         children = memento.getState();
@@ -59,6 +68,10 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
 
 
 
+    /* Iterator of State Diagram */
+
+
+    // 建立 Iterator
     @Override
     public Iterator<DiagramElement> iterator() {
         return new StateDiagramIterator();
@@ -68,11 +81,13 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
     public class StateDiagramIterator implements Iterator<DiagramElement> {
         private int index = 0;
 
+        // 當 index 小於子元素數量代表可繼續迭代
         @Override
         public boolean hasNext() {
             return (index < children.size());
         }
 
+        // 取得下一個子元素
         @Override
         public DiagramElement next() {
             if (hasNext()) {

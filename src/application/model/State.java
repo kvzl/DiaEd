@@ -9,6 +9,7 @@ import application.viewModel.StateViewModel;
 
 public class State extends DiagramElement {
     public State() {
+        // 預設座標
         setPositionX(150);
         setPositionY(150);
     }
