@@ -7,18 +7,18 @@
 
 <fx:root fx:id="toolbar" prefHeight="40.0" prefWidth="840.0" type="ToolBar" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <items>
-        <Button fx:id="newButton" mnemonicParsing="false" text="New" />
-        <Button fx:id="loadButton" mnemonicParsing="false" text="Load" />
+        <Button fx:id="newButton" mnemonicParsing="false" text="NEW" />
+        <Button fx:id="loadButton" mnemonicParsing="false" text="LOAD" />
         <!--<Button fx:id="saveButton" mnemonicParsing="false" text="Save" />-->
-        <Pane prefHeight="28.0" prefWidth="60.0" />
-        <Button fx:id="undoButton" mnemonicParsing="false" text="Undo" />
-        <Button fx:id="redoButton" mnemonicParsing="false" text="Redo" />
-        <Pane prefHeight="28.0" prefWidth="60.0" />
-        <Button fx:id="editButton" mnemonicParsing="false" text="Edit" />
-        <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete" />
-        <Pane prefHeight="28.0" prefWidth="60.0" />
-        <Label fx:id="addText" text="Add" />
-        <Button fx:id="addStateButton" mnemonicParsing="false" text="State" />
-        <Button fx:id="addTransitionButton" mnemonicParsing="false" text="Transition" />
+        <Pane prefHeight="28.0" prefWidth="50.0" />
+        <Button fx:id="undoButton" mnemonicParsing="false" text="UNDO" />
+        <Button fx:id="redoButton" mnemonicParsing="false" text="REDO" />
+        <Pane prefHeight="28.0" prefWidth="50.0" />
+        <Button fx:id="editButton" mnemonicParsing="false" text="EDIT" />
+        <Button fx:id="deleteButton" mnemonicParsing="false" text="DELETE" />
+        <Pane prefHeight="28.0" prefWidth="50.0" />
+        <Label fx:id="addText" text="+" />
+        <Button fx:id="addStateButton" mnemonicParsing="false" text="STATE" />
+        <Button fx:id="addTransitionButton" mnemonicParsing="false" text="TRANSITION" />
     </items>
 </fx:root>
