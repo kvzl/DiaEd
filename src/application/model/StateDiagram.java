@@ -1,16 +1,13 @@
 package application.model;
 
+import application.Iterator;
+import application.Iterable;
 import application.Store;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
-/**
- * Created by ucfan on 2017/3/28.
- */
+
 public class StateDiagram extends DiagramElement implements Iterable<DiagramElement> {
     List<DiagramElement> children = new ArrayList<>();
 
@@ -36,17 +33,6 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         return new StateDiagramIterator();
     }
 
-    @Override
-    public void forEach(Consumer<? super DiagramElement> action) {
-        for (DiagramElement element: children) {
-            action.accept(element);
-        }
-    }
-
-    @Override
-    public Spliterator<DiagramElement> spliterator() {
-        return null;
-    }
 
     public class StateDiagramIterator implements Iterator<DiagramElement> {
         private int index = 0;
@@ -66,12 +52,7 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
 
         @Override
         public void remove() {
-
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super DiagramElement> action) {
-
+            throw new UnsupportedOperationException("remove");
         }
     }
 
