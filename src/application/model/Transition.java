@@ -20,10 +20,13 @@ import javafx.scene.shape.Line;
 public class Transition extends DiagramElement {
     private final double LENGTH = 150;
 
-    DoubleProperty destinationX;
-    DoubleProperty destinationY;
+    private DoubleProperty destinationX;
+    private DoubleProperty destinationY;
 
-    Arrow arrow;
+    private Arrow arrow;
+    private DragPoint p1;
+    private DragPoint p2;
+    private DragHandler rootDragHandler;
 
 
     public Transition() {
@@ -65,52 +68,70 @@ public class Transition extends DiagramElement {
     @Override
     public void draw(Store store) {
         Pane canvas = store.getCanvas();
-        System.out.println("draw transition");
-
-        double startX = getPositionX();
-        double startY = getPositionY();
-
-        double endX = getDestinationX();
-        double endY = getDestinationY();
 
         arrow = new Arrow(
-                new Line(startX, startY, endX, endY),
+                new Line(getPositionX(), getPositionY(), getDestinationX(), getDestinationY()),
                 new Line(),
                 new Line()
         );
-
         arrow.getStyleClass().add("transition");
 
+        rootDragHandler = new DragHandler(arrow);
 
-        arrow.startXProperty().bindBidirectional(positionXProperty());
-        arrow.startYProperty().bindBidirectional(positionYProperty());
-        arrow.endXProperty().bindBidirectional(destinationXProperty());
-        arrow.endYProperty().bindBidirectional(destinationYProperty());
-
-
-        DragPoint p1 = new DragPoint(new Point2D(startX, startY), t -> {
-            setPositionX(t.getSceneX());
-            setPositionY(t.getSceneY() - 40);
-        });
-
-
-        DragPoint p2 = new DragPoint(new Point2D(endX, endY), t -> {
-            setDestinationX(t.getSceneX());
-            setDestinationY(t.getSceneY() - 40);
-        });
-
+        p1 = new DragPoint(positionXProperty(), positionYProperty());
+        p2 = new DragPoint(destinationXProperty(), destinationYProperty());
 
         shape = new Group(arrow, p1, p2);
+
+        bindListeners(store);
         canvas.getChildren().add(shape);
     }
 
+    private void bindListeners(Store store) {
+        p1.setOnDragged(event -> {
+            arrow.setStartX(getPositionX() - arrow.getTranslateX());
+            arrow.setStartY(getPositionY() - arrow.getTranslateY());
+        });
+
+        p2.setOnDragged(event -> {
+            arrow.setEndX(getDestinationX() - arrow.getTranslateX());
+            arrow.setEndY(getDestinationY() - arrow.getTranslateY());
+        });
+
+        arrow.setOnMousePressed(event -> {
+            p1.dragHandler.getOnPressed().handle(event);
+            p2.dragHandler.getOnPressed().handle(event);
+            rootDragHandler.getOnPressed().handle(event);
+        });
+
+        arrow.setOnMouseDragged(event -> {
+            p1.dragHandler.getOnDragged().handle(event);
+            p2.dragHandler.getOnDragged().handle(event);
+            rootDragHandler.getOnDragged().handle(event);
+        });
+
+        rootDragHandler.bindToPoint(arrow);
+
+        arrow.setOnMouseClicked(event -> {
+            store.setSelected(arrow);
+            event.consume();
+        });
+
+        store.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue == arrow) {
+                arrow.getStyleClass().add("selected");
+            }
+            else {
+                arrow.getStyleClass().remove("selected");
+            }
+        }));
+    }
 
     private class Arrow extends Group {
-
         private final Line line;
 
-        private static final double arrowLength = 20;
-        private static final double arrowWidth = 7;
+        private static final double ARROW_LENGTH = 20;
+        private static final double ARROW_WIDTH = 7;
 
         private Arrow(Line line, Line arrow1, Line arrow2) {
             super(line, arrow1, arrow2);
@@ -128,21 +149,16 @@ public class Transition extends DiagramElement {
                 arrow2.setEndY(ey);
 
                 if (ex == sx && ey == sy) {
-                    // arrow parts of length 0
                     arrow1.setStartX(ex);
                     arrow1.setStartY(ey);
                     arrow2.setStartX(ex);
                     arrow2.setStartY(ey);
                 }
                 else {
-                    double factor = arrowLength / Math.hypot(sx-ex, sy-ey);
-                    double factorO = arrowWidth / Math.hypot(sx-ex, sy-ey);
-
-                    // part in direction of main line
+                    double factor = ARROW_LENGTH / Math.hypot(sx-ex, sy-ey);
+                    double factorO = ARROW_WIDTH / Math.hypot(sx-ex, sy-ey);
                     double dx = (sx - ex) * factor;
                     double dy = (sy - ey) * factor;
-
-                    // part orthogonal to main line
                     double ox = (sx - ex) * factorO;
                     double oy = (sy - ey) * factorO;
 
@@ -153,7 +169,6 @@ public class Transition extends DiagramElement {
                 }
             };
 
-            // add updater to properties
             startXProperty().addListener(updater);
             startYProperty().addListener(updater);
             endXProperty().addListener(updater);
@@ -161,7 +176,6 @@ public class Transition extends DiagramElement {
             updater.invalidated(null);
         }
 
-        // start/endProperty properties
         public final void setStartX(double value) {
             line.setStartX(value);
         }
@@ -213,18 +227,32 @@ public class Transition extends DiagramElement {
     }
 
     private class DragPoint extends Circle {
-        DragHandler dragHandler = new DragHandler();
+        DragHandler dragHandler = new DragHandler(this);
 
-        public DragPoint(Point2D position, EventHandler<MouseEvent> onDragged) {
-            super(position.getX(), position.getY(), 5);
+        public DragPoint(DoubleProperty xProperty, DoubleProperty yProperty) {
+            super(xProperty.get(), yProperty.get(), 5);
+
             this.getStyleClass().add("transition-drag-point");
 
+            dragHandler.bindToPoint(this, xProperty, yProperty);
+
             this.setOnMousePressed(dragHandler.getOnPressed());
-            this.setOnMouseDragged(event -> {
-                dragHandler.getOnDragged().handle(event);
-                onDragged.handle(event);
-            });
+            this.setOnMouseDragged(dragHandler.getOnDragged());
         }
+
+        public void setOnDragged(EventHandler<MouseEvent> handler) {
+            if (handler == null) {
+                this.setOnMouseDragged(dragHandler.getOnDragged());
+            }
+            else {
+                this.setOnMouseDragged(event -> {
+                    dragHandler.getOnDragged().handle(event);
+                    handler.handle(event);
+                });
+            }
+        }
+
+
     }
 
 }

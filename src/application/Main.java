@@ -1,5 +1,6 @@
 package application;
 
+import application.model.DiagramElement;
 import application.model.State;
 import application.model.StateDiagram;
 import application.model.Transition;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.Iterator;
 
 
 public class Main extends Application {
@@ -17,7 +19,6 @@ public class Main extends Application {
 		BorderPane root = new BorderPane();
 
 		try {
-
 			Scene scene = new Scene(root,840,680);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -32,15 +33,19 @@ public class Main extends Application {
         root.setCenter(store.getCanvas());
 		root.setTop(store.getToolbar());
 
-//        StateDiagram diagram = initData();
-//        diagram.forEach(element -> element.draw(canvas));
+//		StateDiagram diagram = initData();
+//
+//        Iterator iter = diagram.iterator();
+//
+//        while (iter.hasNext()) {
+//            DiagramElement element = (DiagramElement)iter.next();
+//            element.draw(store);
+//        }
 	}
-
 
     public static void main(String[] args) {
         launch(args);
     }
-
 
     private StateDiagram initData() {
         State state1 = new State(new Point2D(100, 100));

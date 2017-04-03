@@ -5,7 +5,6 @@ import application.Store;
 import javafx.geometry.Point2D;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
 /**
  * Created by ucfan on 2017/3/28.
@@ -14,7 +13,7 @@ import javafx.scene.shape.Shape;
 public class State extends DiagramElement {
     private final double RADIUS = 50;
 
-    DragHandler dragHandler = new DragHandler();
+    DragHandler dragHandler;
 
 
     public State() {
@@ -32,15 +31,22 @@ public class State extends DiagramElement {
         shape = new Circle(getPositionX(), getPositionY(), RADIUS);
         shape.getStyleClass().add("state-circle");
 
+        dragHandler = new DragHandler(shape);
+
+        bindListeners(store);
+
+        canvas.getChildren().add(shape);
+    }
+
+
+    private void bindListeners(Store store) {
+        dragHandler.bindToPoint(shape, positionXProperty(), positionYProperty());
+
         shape.setOnMousePressed(dragHandler.getOnPressed());
-        shape.setOnMouseDragged(event -> {
-            setPositionX(event.getSceneX());
-            setPositionY(event.getSceneY() - 40);
-            dragHandler.getOnDragged().handle(event);
-        });
+        shape.setOnMouseDragged(dragHandler.getOnDragged());
 
         shape.setOnMouseClicked(event -> {
-            store.setSelected((Shape)shape);
+            store.setSelected(shape);
             event.consume();
         });
 
@@ -53,7 +59,6 @@ public class State extends DiagramElement {
             }
         });
 
-        canvas.getChildren().add(shape);
     }
 
 }

@@ -1,19 +1,20 @@
 .state-circle {
     -fx-fill: WHITE;
     -fx-stroke: #555555;
-    -fx-stroke-width: 1.5;
+    -fx-stroke-width: 2;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0.0, 0, 1);
-
+    -fx-cursor: hand;
 }
 
-.state-circle.selected {
+.selected {
     -fx-effect: dropshadow(three-pass-box, rgba(0, 157, 255, 0.3), 15, 0.5, 0, 0) !important;
 }
 
 .transition > * {
     -fx-stroke: #333333;
-    -fx-stroke-width: 1.5;
+    -fx-stroke-width: 2;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0.0, 0, 1);
+    -fx-cursor: hand;
 }
 
 .transition-line {
@@ -23,7 +24,7 @@
 .transition-drag-point {
     -fx-fill: WHITE;
     -fx-stroke: BLACK;
-    -fx-opacity: 0;
+    -fx-opacity: 0.1;
 }
 
 .transition-drag-point:hover {

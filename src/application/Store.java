@@ -4,6 +4,7 @@ import application.model.State;
 import application.model.Transition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Shape;
 
@@ -11,7 +12,7 @@ import javafx.scene.shape.Shape;
  * Created by ucfan on 2017/3/31.
  */
 public class Store {
-    private ObjectProperty<Shape> selected = new SimpleObjectProperty<>();
+    private ObjectProperty<Node> selected = new SimpleObjectProperty<>();
     private Canvas canvas;
     private Toolbar toolbar;
 
@@ -29,15 +30,15 @@ public class Store {
         return toolbar;
     }
 
-    public void setSelected(Shape selected) {
+    public void setSelected(Node selected) {
         this.selected.set(selected);
     }
 
-    public Shape getSelected() {
+    public Node getSelected() {
         return this.selected.get();
     }
 
-    public ObjectProperty<Shape> selectedProperty() {
+    public ObjectProperty<Node> selectedProperty() {
         return this.selected;
     }
 
