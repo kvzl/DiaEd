@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.AnchorPane;
 
-import javax.swing.*;
 import java.io.IOException;
 
 /**

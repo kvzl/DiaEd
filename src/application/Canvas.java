@@ -10,9 +10,6 @@ import java.io.IOException;
  * Created by ucfan on 2017/3/27.
  */
 public class Canvas extends AnchorPane {
-    @FXML
-    private AnchorPane canvas;
-
     Store store;
 
     public Canvas(Store store) {
@@ -38,10 +35,6 @@ public class Canvas extends AnchorPane {
         this.setOnMouseClicked(event -> {
             store.setSelected(null);
         });
-    }
-
-    public AnchorPane getCanvas() {
-        return this.canvas;
     }
 
 }

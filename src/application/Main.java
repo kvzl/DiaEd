@@ -1,6 +1,5 @@
 package application;
 
-import application.model.DiagramElement;
 import application.model.State;
 import application.model.StateDiagram;
 import application.model.Transition;
@@ -9,8 +8,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.util.Iterator;
 
 
 public class Main extends Application {

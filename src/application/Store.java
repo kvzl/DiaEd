@@ -6,7 +6,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Shape;
 
 /**
  * Created by ucfan on 2017/3/31.
@@ -23,7 +22,7 @@ public class Store {
     }
 
     public AnchorPane getCanvas() {
-        return canvas.getCanvas();
+        return canvas;
     }
 
     public Toolbar getToolbar() {
