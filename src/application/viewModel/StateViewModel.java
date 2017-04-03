@@ -65,6 +65,7 @@ public class StateViewModel extends ViewModel<State> {
             if (event.getClickCount() == 2) {
                 store.setEditing(model);
             }
+            store.setSelected(model);
             event.consume();
         });
 

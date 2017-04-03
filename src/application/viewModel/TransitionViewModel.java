@@ -106,6 +106,7 @@ public class TransitionViewModel extends ViewModel<Transition> {
                 store.setEditing(model);
                 text.requestFocus();
             }
+            store.setSelected(model);
             event.consume();
         });
 
