@@ -17,14 +17,12 @@ public class StateViewModel extends ViewModel<State> {
 
     @Override
     public void draw(Store store) {
-        Canvas canvas = store.getCanvas();
-
         shape = new Circle(model.getPositionX(), model.getPositionY(), 60);
         shape.getStyleClass().add("state-circle");
 
         bindListeners(store);
 
-        canvas.getChildren().add(shape);
+        store.draw(shape);
     }
 
     private void bindListeners(Store store) {

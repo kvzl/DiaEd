@@ -10,6 +10,7 @@ import application.view.Canvas;
 import application.view.Toolbar;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Node;
 
 
 /**
@@ -70,8 +71,13 @@ public class Store {
     }
 
 
+    // 繪製（將元件加入到畫布中）
+    public void draw(Node node) {
+        canvas.getChildren().add(node);
+    }
+
     // 重繪制
-    private void redraw() {
+    public void redraw() {
         canvas.clear();
         diagram.draw(this);
     }

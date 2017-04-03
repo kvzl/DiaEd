@@ -33,8 +33,6 @@ public class TransitionViewModel extends ViewModel<Transition> {
 
     @Override
     public void draw(Store store) {
-        Canvas canvas = store.getCanvas();
-
         arrow = new Arrow(
                 new Line(model.getPositionX(), model.getPositionY(), model.getDestinationX(), model.getDestinationY()),
                 new Line(),
@@ -48,7 +46,8 @@ public class TransitionViewModel extends ViewModel<Transition> {
         shape = new Group(arrow, p1, p2);
 
         bindListeners(store);
-        canvas.getChildren().add(shape);
+
+        store.draw(shape);
     }
 
     private void bindListeners(Store store) {
