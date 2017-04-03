@@ -1,4 +1,4 @@
-package application.composite;
+package application.model;
 
 import javafx.geometry.Point2D;
 

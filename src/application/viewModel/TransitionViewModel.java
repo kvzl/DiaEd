@@ -1,13 +1,13 @@
 package application.viewModel;
 
 import application.Store;
-import application.composite.Transition;
+import application.model.Transition;
+import application.view.Canvas;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
@@ -26,7 +26,7 @@ public class TransitionViewModel extends ViewModel<Transition> {
 
     @Override
     public void draw(Store store) {
-        Pane canvas = store.getCanvas();
+        Canvas canvas = store.getCanvas();
 
         arrow = new Arrow(
                 new Line(model.getPositionX(), model.getPositionY(), model.getDestinationX(), model.getDestinationY()),

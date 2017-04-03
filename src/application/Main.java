@@ -1,8 +1,8 @@
 package application;
 
-import application.composite.State;
-import application.composite.StateDiagram;
-import application.composite.Transition;
+import application.model.State;
+import application.model.StateDiagram;
+import application.model.Transition;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;

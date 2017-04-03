@@ -1,8 +1,8 @@
 package application.viewModel;
 
 import application.Store;
-import application.composite.State;
-import javafx.scene.layout.AnchorPane;
+import application.model.State;
+import application.view.Canvas;
 import javafx.scene.shape.Circle;
 
 /**
@@ -17,7 +17,7 @@ public class StateViewModel extends ViewModel<State> {
 
     @Override
     public void draw(Store store) {
-        AnchorPane canvas = store.getCanvas();
+        Canvas canvas = store.getCanvas();
 
         shape = new Circle(model.getPositionX(), model.getPositionY(), 60);
         shape.getStyleClass().add("state-circle");

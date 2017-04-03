@@ -1,7 +1,4 @@
-package application.composite;
-
-import application.Iterable;
-import application.Iterator;
+package application.model;
 
 import java.util.ArrayList;
 import java.util.List;

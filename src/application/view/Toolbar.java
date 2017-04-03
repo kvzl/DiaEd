@@ -1,5 +1,6 @@
-package application;
+package application.view;
 
+import application.Store;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

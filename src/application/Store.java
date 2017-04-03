@@ -1,13 +1,14 @@
 package application;
 
-import application.composite.State;
-import application.composite.Transition;
+import application.model.State;
+import application.model.Transition;
+import application.view.Canvas;
+import application.view.Toolbar;
 import application.viewModel.StateViewModel;
 import application.viewModel.TransitionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * Created by ucfan on 2017/3/31.
@@ -23,7 +24,7 @@ public class Store {
         bindToolbarActions();
     }
 
-    public AnchorPane getCanvas() {
+    public Canvas getCanvas() {
         return canvas;
     }
 

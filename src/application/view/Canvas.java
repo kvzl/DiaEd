@@ -1,5 +1,6 @@
-package application;
+package application.view;
 
+import application.Store;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;

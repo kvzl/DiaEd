@@ -1,6 +1,4 @@
-package application;
-
-import application.Iterator;
+package application.model;
 
 /**
  * Created by ucfan on 2017/4/3.
