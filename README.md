@@ -15,8 +15,8 @@ State Diagram Editor written in Java (Schoolwork)
     - [x] ~~draw state and transition~~
     - [x] ~~drag and drop~~
     - [ ] edit name of state and transition
-    - [ ] copy/paste/edit
-- [ ] undo/redo
+    - [ ] copy/paste/delete
+- [x] undo/redo
 - [ ] save/load
 - [ ] snap to grid
 

@@ -51,5 +51,15 @@ public class Transition extends DiagramElement {
         }
         viewModel.draw(store);
     }
+
+    @Override
+    public Transition clone() {
+        Transition transition = new Transition();
+        transition.setPositionX(getPositionX());
+        transition.setPositionY(getPositionY());
+        transition.setDestinationX(getDestinationX());
+        transition.setDestinationY(getDestinationY());
+        return transition;
+    }
 }
 

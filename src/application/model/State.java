@@ -20,6 +20,14 @@ public class State extends DiagramElement {
         }
         viewModel.draw(store);
     }
+
+    @Override
+    public State clone() {
+        State state = new State();
+        state.setPositionX(getPositionX());
+        state.setPositionY(getPositionY());
+        return state;
+    }
 }
 
 

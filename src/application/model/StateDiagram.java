@@ -1,13 +1,14 @@
 package application.model;
 
+import application.history.DiagramState;
 import application.Store;
+import application.history.Originator;
 import application.viewModel.StateDiagramViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class StateDiagram extends DiagramElement implements Iterable<DiagramElement> {
+public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator<DiagramState> {
     private List<DiagramElement> children = new ArrayList<>();
 
     public void add(DiagramElement element) {
@@ -36,6 +37,24 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
             viewModel = new StateDiagramViewModel(this);
         }
         viewModel.draw(store);
+    }
+
+    @Override
+    public DiagramState save() {
+        DiagramState backup = new DiagramState();
+
+        Iterator<DiagramElement> iter = iterator();
+        while (iter.hasNext()) {
+            DiagramElement element = iter.next();
+            backup.add(element.clone());
+        }
+
+        return backup;
+    }
+
+    @Override
+    public void restore(DiagramState backup) {
+        children = backup;
     }
 
     @Override

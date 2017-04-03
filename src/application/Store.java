@@ -1,12 +1,12 @@
 package application;
 
+import application.history.DiagramState;
+import application.history.EditHistory;
 import application.model.State;
 import application.model.StateDiagram;
 import application.model.Transition;
 import application.view.Canvas;
 import application.view.Toolbar;
-import application.viewModel.StateViewModel;
-import application.viewModel.TransitionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -14,10 +14,15 @@ import javafx.scene.Node;
 /**
  * Created by ucfan on 2017/3/31.
  */
+
+
+
 public class Store {
     private ObjectProperty<Node> selected = new SimpleObjectProperty<>();
     private Canvas canvas;
     private Toolbar toolbar;
+    private StateDiagram diagram = new StateDiagram();
+    private EditHistory histories = new EditHistory();
 
     public Store() {
         canvas = new Canvas(this);
@@ -45,28 +50,63 @@ public class Store {
         return this.selected;
     }
 
+
+    // 重繪制
+    private void redraw() {
+        canvas.clear();
+        diagram.draw(this);
+    }
+
+    public void saveHistory() {
+        histories.push(diagram.save());
+    }
+
     private void bindToolbarActions() {
         toolbar.setOnNew(event -> {
-            canvas.clear();
+            diagram = new StateDiagram();
+            redraw();
+            histories.reset();
         });
 
         toolbar.setOnLoad(event -> {
-            canvas.clear();
-            StateDiagram diagram = initData();
-            diagram.draw(this);
+            diagram = initData();
+            redraw();
+            histories.reset();
+        });
+
+        toolbar.setOnUndo(event -> {
+            if (histories.undoable()) {
+                DiagramState currentState = diagram.save();
+                diagram.restore(histories.undo(currentState));
+                redraw();
+            }
+        });
+
+        toolbar.setOnRedo(event -> {
+            if (histories.redoable()) {
+                DiagramState currentState = diagram.save();
+                diagram.restore(histories.redo(currentState));
+                redraw();
+            }
         });
 
         toolbar.setOnAddState(event -> {
-            StateViewModel viewModel = new StateViewModel(new State());
-            viewModel.draw(this);
+            saveHistory();
+            State state = new State();
+            state.draw(this);
+            diagram.add(state);
         });
 
         toolbar.setOnAddTranstion(event -> {
-            TransitionViewModel viewModel = new TransitionViewModel(new Transition());
-            viewModel.draw(this);
+            saveHistory();
+            Transition transition = new Transition();
+            transition.draw(this);
+            diagram.add(transition);
         });
     }
 
+
+    // 預設 data
     private StateDiagram initData() {
         State state1 = new State();
         state1.setPositionX(100);
@@ -87,12 +127,7 @@ public class Store {
         diagram.add(state2);
         diagram.add(trans1);
 
-        System.out.println(diagram.get(state1));
-        System.out.println(diagram.get(state2));
-        System.out.println(diagram.get(trans1));
-
         return diagram;
     }
-
 }
 

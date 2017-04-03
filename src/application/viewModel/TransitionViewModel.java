@@ -5,6 +5,7 @@ import application.model.Transition;
 import application.view.Canvas;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -47,17 +48,24 @@ public class TransitionViewModel extends ViewModel<Transition> {
     private void bindListeners(Store store) {
         rootDragHandler = new DragHandler(arrow);
 
+        p1.setOnPressed(event -> {
+            store.saveHistory();
+        });
         p1.setOnDragged(event -> {
             arrow.setStartX(model.getPositionX() - arrow.getTranslateX());
             arrow.setStartY(model.getPositionY() - arrow.getTranslateY());
         });
 
+        p2.setOnPressed(event -> {
+            store.saveHistory();
+        });
         p2.setOnDragged(event -> {
             arrow.setEndX(model.getDestinationX() - arrow.getTranslateX());
             arrow.setEndY(model.getDestinationY() - arrow.getTranslateY());
         });
 
         arrow.setOnMousePressed(event -> {
+            store.saveHistory();
             p1.dragHandler.getOnPressed().handle(event);
             p2.dragHandler.getOnPressed().handle(event);
             rootDragHandler.getOnPressed().handle(event);
@@ -195,8 +203,18 @@ public class TransitionViewModel extends ViewModel<Transition> {
 
             dragHandler.bindToPoint(this, xProperty, yProperty);
 
-            this.setOnMousePressed(dragHandler.getOnPressed());
-            this.setOnMouseDragged(dragHandler.getOnDragged());
+        }
+
+        public void setOnPressed(EventHandler<MouseEvent> handler) {
+            if (handler == null) {
+                this.setOnMousePressed(dragHandler.getOnPressed());
+            }
+            else {
+                this.setOnMousePressed(event -> {
+                    dragHandler.getOnPressed().handle(event);
+                    handler.handle(event);
+                });
+            }
         }
 
         public void setOnDragged(EventHandler<MouseEvent> handler) {

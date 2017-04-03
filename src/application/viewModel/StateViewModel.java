@@ -32,7 +32,10 @@ public class StateViewModel extends ViewModel<State> {
 
         dragHandler.bindToPoint(shape, model.positionXProperty(), model.positionYProperty());
 
-        shape.setOnMousePressed(dragHandler.getOnPressed());
+        shape.setOnMousePressed(event -> {
+            store.saveHistory();
+            dragHandler.getOnPressed().handle(event);
+        });
         shape.setOnMouseDragged(dragHandler.getOnDragged());
 
         shape.setOnMouseClicked(event -> {

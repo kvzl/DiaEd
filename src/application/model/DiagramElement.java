@@ -47,4 +47,8 @@ public abstract class DiagramElement {
     }
 
     abstract public void draw(Store store);
+
+    public DiagramElement clone() {
+        return this.clone();
+    };
 }
