@@ -12,6 +12,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class DiagramElement {
     private DoubleProperty positionX = new SimpleDoubleProperty();
     private DoubleProperty positionY = new SimpleDoubleProperty();
+
+    // View Model 負責處理繪圖、事件綁定、資料綁定
     protected ViewModel viewModel;
 
     public double getPositionX() {
