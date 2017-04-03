@@ -1,4 +1,4 @@
-package application;
+package application.viewModel;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

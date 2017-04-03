@@ -1,68 +1,27 @@
-package application.model;
+package application.viewModel;
 
-import application.DragHandler;
 import application.Store;
+import application.composite.Transition;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-
 /**
- * Created by ucfan on 2017/3/28.
+ * Created by ucfan on 2017/4/3.
  */
-public class Transition extends DiagramElement {
-    private final double LENGTH = 150;
-
-    private DoubleProperty destinationX;
-    private DoubleProperty destinationY;
-
+public class TransitionViewModel extends ViewModel<Transition> {
     private Arrow arrow;
     private DragPoint p1;
     private DragPoint p2;
     private DragHandler rootDragHandler;
 
-
-    public Transition() {
-        super(new Point2D(150, 150));
-        destinationX = new SimpleDoubleProperty(150 + LENGTH);
-        destinationY = new SimpleDoubleProperty(150);
-    }
-
-    public Transition(Point2D position, Point2D destination) {
-        super(position);
-        destinationX = new SimpleDoubleProperty(destination.getX());
-        destinationY = new SimpleDoubleProperty(destination.getY());
-    }
-
-    public double getDestinationX() {
-        return destinationX.get();
-    }
-
-    public void setDestinationX(double x) {
-        destinationX.set(x);
-    }
-
-    public double getDestinationY() {
-        return destinationY.get();
-    }
-
-    public void setDestinationY(double y) {
-        destinationY.set(y);
-    }
-
-    public DoubleProperty destinationXProperty() {
-        return destinationX;
-    }
-
-    public DoubleProperty destinationYProperty() {
-        return destinationY;
+    public TransitionViewModel(Transition model) {
+        super(model);
     }
 
     @Override
@@ -70,16 +29,14 @@ public class Transition extends DiagramElement {
         Pane canvas = store.getCanvas();
 
         arrow = new Arrow(
-                new Line(getPositionX(), getPositionY(), getDestinationX(), getDestinationY()),
+                new Line(model.getPositionX(), model.getPositionY(), model.getDestinationX(), model.getDestinationY()),
                 new Line(),
                 new Line()
         );
         arrow.getStyleClass().add("transition");
 
-        rootDragHandler = new DragHandler(arrow);
-
-        p1 = new DragPoint(positionXProperty(), positionYProperty());
-        p2 = new DragPoint(destinationXProperty(), destinationYProperty());
+        p1 = new DragPoint(model.positionXProperty(), model.positionYProperty());
+        p2 = new DragPoint(model.destinationXProperty(), model.destinationYProperty());
 
         shape = new Group(arrow, p1, p2);
 
@@ -88,14 +45,16 @@ public class Transition extends DiagramElement {
     }
 
     private void bindListeners(Store store) {
+        rootDragHandler = new DragHandler(arrow);
+
         p1.setOnDragged(event -> {
-            arrow.setStartX(getPositionX() - arrow.getTranslateX());
-            arrow.setStartY(getPositionY() - arrow.getTranslateY());
+            arrow.setStartX(model.getPositionX() - arrow.getTranslateX());
+            arrow.setStartY(model.getPositionY() - arrow.getTranslateY());
         });
 
         p2.setOnDragged(event -> {
-            arrow.setEndX(getDestinationX() - arrow.getTranslateX());
-            arrow.setEndY(getDestinationY() - arrow.getTranslateY());
+            arrow.setEndX(model.getDestinationX() - arrow.getTranslateX());
+            arrow.setEndY(model.getDestinationY() - arrow.getTranslateY());
         });
 
         arrow.setOnMousePressed(event -> {
@@ -227,7 +186,7 @@ public class Transition extends DiagramElement {
     }
 
     private class DragPoint extends Circle {
-        DragHandler dragHandler = new DragHandler(this);
+        private DragHandler dragHandler = new DragHandler(this);
 
         public DragPoint(DoubleProperty xProperty, DoubleProperty yProperty) {
             super(xProperty.get(), yProperty.get(), 5);
@@ -254,10 +213,4 @@ public class Transition extends DiagramElement {
 
 
     }
-
 }
-
-
-
-
-

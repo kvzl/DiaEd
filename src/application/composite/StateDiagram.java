@@ -1,8 +1,7 @@
-package application.model;
+package application.composite;
 
-import application.Iterator;
 import application.Iterable;
-import application.Store;
+import application.Iterator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +22,6 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         return children.get(index);
     }
 
-
-    @Override
-    public void draw(Store store) {
-    }
 
     @Override
     public Iterator<DiagramElement> iterator() {

@@ -1,37 +1,26 @@
-package application.model;
+package application.viewModel;
 
-import application.DragHandler;
 import application.Store;
-import javafx.geometry.Point2D;
+import application.composite.State;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 
 /**
- * Created by ucfan on 2017/3/28.
+ * Created by ucfan on 2017/4/3.
  */
+public class StateViewModel extends ViewModel<State> {
+    private DragHandler dragHandler;
 
-public class State extends DiagramElement {
-    private final double RADIUS = 50;
-
-    DragHandler dragHandler;
-
-
-    public State() {
-        super(new Point2D(150, 150));
-    }
-
-    public State(Point2D position) {
-        super(position);
+    public StateViewModel(State model) {
+        super(model);
     }
 
     @Override
     public void draw(Store store) {
         AnchorPane canvas = store.getCanvas();
 
-        shape = new Circle(getPositionX(), getPositionY(), RADIUS);
+        shape = new Circle(model.getPositionX(), model.getPositionY(), 60);
         shape.getStyleClass().add("state-circle");
-
-        dragHandler = new DragHandler(shape);
 
         bindListeners(store);
 
@@ -40,7 +29,9 @@ public class State extends DiagramElement {
 
 
     private void bindListeners(Store store) {
-        dragHandler.bindToPoint(shape, positionXProperty(), positionYProperty());
+        dragHandler = new DragHandler(shape);
+
+        dragHandler.bindToPoint(shape, model.positionXProperty(), model.positionYProperty());
 
         shape.setOnMousePressed(dragHandler.getOnPressed());
         shape.setOnMouseDragged(dragHandler.getOnDragged());
@@ -61,7 +52,5 @@ public class State extends DiagramElement {
 
     }
 
+
 }
-
-
-

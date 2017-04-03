@@ -1,7 +1,9 @@
 package application;
 
-import application.model.State;
-import application.model.Transition;
+import application.composite.State;
+import application.composite.Transition;
+import application.viewModel.StateViewModel;
+import application.viewModel.TransitionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -43,13 +45,13 @@ public class Store {
 
     private void bindToolbarActions() {
         toolbar.setOnAddState(event -> {
-            State state = new State();
-            state.draw(this);
+            StateViewModel viewModel = new StateViewModel(new State());
+            viewModel.draw(this);
         });
 
         toolbar.setOnAddTranstion(event -> {
-            Transition trans = new Transition();
-            trans.draw(this);
+            TransitionViewModel viewModel = new TransitionViewModel(new Transition());
+            viewModel.draw(this);
         });
     }
 

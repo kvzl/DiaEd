@@ -1,18 +1,14 @@
-package application.model;
+package application.composite;
 
-import application.Store;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 
 
 /**
  * Created by ucfan on 2017/3/28.
  */
 public abstract class DiagramElement {
-    protected Node shape;
-
     private DoubleProperty positionX;
     private DoubleProperty positionY;
 
@@ -49,5 +45,5 @@ public abstract class DiagramElement {
         return positionY;
     }
 
-    abstract public void draw(Store store);
+
 }
