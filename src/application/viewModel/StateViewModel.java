@@ -27,7 +27,6 @@ public class StateViewModel extends ViewModel<State> {
         canvas.getChildren().add(shape);
     }
 
-
     private void bindListeners(Store store) {
         dragHandler = new DragHandler(shape);
 

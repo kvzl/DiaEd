@@ -1,27 +1,23 @@
 package application.model;
 
+import application.Store;
+import application.viewModel.TransitionViewModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point2D;
 
 
 /**
  * Created by ucfan on 2017/3/28.
  */
 public class Transition extends DiagramElement {
-    private DoubleProperty destinationX;
-    private DoubleProperty destinationY;
+    private DoubleProperty destinationX = new SimpleDoubleProperty();
+    private DoubleProperty destinationY = new SimpleDoubleProperty();
 
     public Transition() {
-        super(new Point2D(150, 150));
-        destinationX = new SimpleDoubleProperty(350);
-        destinationY = new SimpleDoubleProperty(150);
-    }
-
-    public Transition(Point2D position, Point2D destination) {
-        super(position);
-        destinationX = new SimpleDoubleProperty(destination.getX());
-        destinationY = new SimpleDoubleProperty(destination.getY());
+        setPositionX(150);
+        setPositionY(150);
+        setDestinationX(350);
+        setDestinationY(150);
     }
 
     public double getDestinationX() {
@@ -48,9 +44,12 @@ public class Transition extends DiagramElement {
         return destinationY;
     }
 
+    @Override
+    public void draw(Store store) {
+        if (viewModel == null) {
+            viewModel = new TransitionViewModel(this);
+        }
+        viewModel.draw(store);
+    }
 }
-
-
-
-
 

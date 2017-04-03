@@ -8,6 +8,7 @@
 <fx:root fx:id="toolbar" prefHeight="40.0" prefWidth="840.0" type="ToolBar" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
   <items>
     <Button fx:id="newButton" mnemonicParsing="false" text="New" />
+    <Button fx:id="loadButton" mnemonicParsing="false" text="Load" />
       <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
       <Button fx:id="undoButton" mnemonicParsing="false" text="Undo" />
       <Button fx:id="redoButton" mnemonicParsing="false" text="Redo" />

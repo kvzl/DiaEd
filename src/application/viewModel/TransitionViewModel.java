@@ -210,7 +210,5 @@ public class TransitionViewModel extends ViewModel<Transition> {
                 });
             }
         }
-
-
     }
 }

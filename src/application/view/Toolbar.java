@@ -19,6 +19,9 @@ public class Toolbar extends ToolBar {
     Button newButton;
 
     @FXML
+    Button loadButton;
+
+    @FXML
     Button saveButton;
 
     @FXML
@@ -73,6 +76,10 @@ public class Toolbar extends ToolBar {
 
     public void setOnSave(EventHandler<ActionEvent> event) {
         saveButton.setOnAction(event);
+    }
+
+    public void setOnLoad(EventHandler<ActionEvent> event) {
+        loadButton.setOnAction(event);
     }
 
     public void setOnUndo(EventHandler<ActionEvent> event) {

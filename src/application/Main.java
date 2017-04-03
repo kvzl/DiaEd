@@ -1,8 +1,9 @@
 package application;
 
-import application.model.State;
-import application.model.StateDiagram;
-import application.model.Transition;
+import application.model.*;
+import application.viewModel.StateDiagramViewModel;
+import application.viewModel.StateViewModel;
+import application.viewModel.ViewModel;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
@@ -29,36 +30,11 @@ public class Main extends Application {
 
         root.setCenter(store.getCanvas());
 		root.setTop(store.getToolbar());
-
-//		StateDiagram diagram = initData();
-//
-//        Iterator iter = diagram.iterator();
-//
-//        while (iter.hasNext()) {
-//            DiagramElement element = (DiagramElement)iter.next();
-//            element.draw(store);
-//        }
 	}
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private StateDiagram initData() {
-        State state1 = new State(new Point2D(100, 100));
 
-        State state2 = new State(new Point2D(230, 230));
-
-        Transition trans1 = new Transition(
-                new Point2D(250, 250),
-                new Point2D(170, 170)
-        );
-
-        StateDiagram diagram = new StateDiagram();
-        diagram.add(state1);
-        diagram.add(state2);
-        diagram.add(trans1);
-
-        return diagram;
-    }
 }

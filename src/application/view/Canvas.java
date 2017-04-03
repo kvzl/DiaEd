@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by ucfan on 2017/3/27.
  */
 public class Canvas extends AnchorPane {
-    Store store;
+    private Store store;
 
     public Canvas(Store store) {
         this.store = store;
@@ -36,6 +36,10 @@ public class Canvas extends AnchorPane {
         this.setOnMouseClicked(event -> {
             store.setSelected(null);
         });
+    }
+
+    public void clear() {
+        this.getChildren().clear();
     }
 
 }

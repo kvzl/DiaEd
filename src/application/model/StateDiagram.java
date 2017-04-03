@@ -1,11 +1,14 @@
 package application.model;
 
+import application.Store;
+import application.viewModel.StateDiagramViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class StateDiagram extends DiagramElement implements Iterable<DiagramElement> {
-    List<DiagramElement> children = new ArrayList<>();
+    private List<DiagramElement> children = new ArrayList<>();
 
     public void add(DiagramElement element) {
         children.add(element);
@@ -19,6 +22,21 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         return children.get(index);
     }
 
+    public DiagramElement get(DiagramElement element) {
+        int index = children.indexOf(element);
+        if (index < 0) {
+            return null;
+        }
+        return children.get(index);
+    }
+
+    @Override
+    public void draw(Store store) {
+        if (viewModel == null) {
+            viewModel = new StateDiagramViewModel(this);
+        }
+        viewModel.draw(store);
+    }
 
     @Override
     public Iterator<DiagramElement> iterator() {
@@ -47,5 +65,6 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
             throw new UnsupportedOperationException("remove");
         }
     }
+
 
 }

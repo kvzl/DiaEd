@@ -1,6 +1,7 @@
 package application.model;
 
-import javafx.geometry.Point2D;
+import application.Store;
+import application.viewModel.StateViewModel;
 
 /**
  * Created by ucfan on 2017/3/28.
@@ -8,11 +9,16 @@ import javafx.geometry.Point2D;
 
 public class State extends DiagramElement {
     public State() {
-        super(new Point2D(150, 150));
+        setPositionX(150);
+        setPositionY(150);
     }
 
-    public State(Point2D position) {
-        super(position);
+    @Override
+    public void draw(Store store) {
+        if (viewModel == null) {
+            viewModel = new StateViewModel(this);
+        }
+        viewModel.draw(store);
     }
 }
 
