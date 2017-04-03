@@ -5,7 +5,6 @@ import application.model.Transition;
 import application.view.Canvas;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
@@ -80,12 +79,12 @@ public class TransitionViewModel extends ViewModel<Transition> {
         rootDragHandler.bindToPoint(arrow);
 
         arrow.setOnMouseClicked(event -> {
-            store.setSelected(arrow);
+            store.setSelected(model);
             event.consume();
         });
 
         store.selectedProperty().addListener(((observable, oldValue, newValue) -> {
-            if (newValue == arrow) {
+            if (newValue == model) {
                 arrow.getStyleClass().add("selected");
             }
             else {

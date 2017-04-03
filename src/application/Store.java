@@ -1,8 +1,8 @@
 package application;
 
-import application.history.DiagramState;
 import application.history.EditHistory;
 import application.history.Memento;
+import application.model.DiagramElement;
 import application.model.State;
 import application.model.StateDiagram;
 import application.model.Transition;
@@ -10,7 +10,6 @@ import application.view.Canvas;
 import application.view.Toolbar;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.Node;
 
 
 /**
@@ -28,7 +27,7 @@ public class Store {
     private Toolbar toolbar;
 
     // 記錄目前選取的元件
-    private ObjectProperty<Node> selected = new SimpleObjectProperty<>();
+    private ObjectProperty<DiagramElement> selected = new SimpleObjectProperty<>();
 
     // 狀態圖 data
     private StateDiagram diagram = new StateDiagram();
@@ -56,17 +55,17 @@ public class Store {
         return toolbar;
     }
 
-    public void setSelected(Node selected) {
+    public void setSelected(DiagramElement selected) {
         this.selected.set(selected);
     }
 
-    public Node getSelected() {
+    public DiagramElement getSelected() {
         return this.selected.get();
     }
 
 
     // 監看目前選取的元件
-    public ObjectProperty<Node> selectedProperty() {
+    public ObjectProperty<DiagramElement> selectedProperty() {
         return this.selected;
     }
 
@@ -119,6 +118,13 @@ public class Store {
                 diagram.restore(newState);
                 redraw();
             }
+        });
+
+        toolbar.setOnDelete(event -> {
+            saveHistory();
+            diagram.remove(selected.get());
+            setSelected(null);
+            redraw();
         });
 
         // 在畫面上新增 state

@@ -1,16 +1,13 @@
 package application.model;
 
-import application.history.DiagramState;
 import application.Store;
+import application.history.DiagramState;
 import application.history.Memento;
 import application.history.Originator;
 import application.viewModel.StateDiagramViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator {
-    private List<DiagramElement> children = new ArrayList<>();
+    private DiagramState children = new DiagramState();
 
     public void add(DiagramElement element) {
         children.add(element);

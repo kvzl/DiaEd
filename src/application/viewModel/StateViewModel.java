@@ -39,12 +39,12 @@ public class StateViewModel extends ViewModel<State> {
         shape.setOnMouseDragged(dragHandler.getOnDragged());
 
         shape.setOnMouseClicked(event -> {
-            store.setSelected(shape);
+            store.setSelected(model);
             event.consume();
         });
 
         store.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == shape) {
+            if (newValue == model) {
                 shape.getStyleClass().add("selected");
             }
             else {
