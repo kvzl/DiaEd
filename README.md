@@ -22,3 +22,7 @@ State Diagram Editor written in Java (Schoolwork)
 - [ ] save/load
 - [ ] snap to grid
 
+
+## Demo
+
+![](demo.gif)
