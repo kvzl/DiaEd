@@ -1,12 +1,23 @@
-Canvas {
-    -fx-background-color: #F6F5F5;
+.root {
+    primary-color: #1F4E5F;
+    bg-color: #F6F5F5;
+    line-color: #666666;
+    line-width: 2;
+    el-shadow: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 7, 0.0, 0, 1);
 }
 
+
+Canvas {
+    -fx-background-color: bg-color;
+}
+
+
 Toolbar {
-    -fx-background-color: #1F4E5F;
+    -fx-background-color: primary-color;
     -fx-font-color: white;
     -fx-padding: 12 10 12 10;
 }
+
 
 Toolbar Button {
     -fx-text-fill: white;
@@ -18,22 +29,22 @@ Toolbar Button {
     -fx-padding: 12 12 12 12;
 }
 
+
 Toolbar Button:hover {
     -fx-background-color: #0881A3;
 }
+
 
 Toolbar Label {
     -fx-text-fill: white;
     -fx-font-size: 14;
 }
 
+
 .state-circle {
     -fx-fill: WHITE;
-    -fx-stroke: #555555;
-    -fx-stroke-width: 2;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0.0, 0, 1);
-    -fx-cursor: hand;
 }
+
 
 .state-text {
     -fx-background-color: transparent;
@@ -41,22 +52,21 @@ Toolbar Label {
     -fx-background-radius: 0;
     -fx-padding: 0;
     -fx-alignment: center;
-    -fx-font-size: 15;
+    -fx-font-size: 16;
 }
+
 
 .state-text-mask {
     -fx-background-color: transparent;
     -fx-cursor: hand;
-
 }
+
 
 .state-text-mask:hover {
     -fx-border-color: rgba(0, 0, 0, 0.4);
     -fx-border-width: 1;
 }
 
-.editing .state-text-mask {
-}
 
 .editing .state-text {
     -fx-border-style: solid;
@@ -64,26 +74,28 @@ Toolbar Label {
     -fx-border-witdh: 1;
 }
 
+
 .selected {
     -fx-effect: dropshadow(three-pass-box, rgba(8, 129, 163, 0.4), 15, 0.5, 0, 0) !important;
 }
 
-.transition > * {
-    -fx-stroke: #333333;
-    -fx-stroke-width: 2;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 10, 0.0, 0, 1);
+
+.transition > *,
+.state-circle
+{
+    -fx-stroke: line-color;
+    -fx-stroke-width: line-width;
+    -fx-effect: el-shadow;
     -fx-cursor: hand;
 }
 
-.transition-line {
-
-}
 
 .transition-drag-point {
     -fx-fill: WHITE;
     -fx-stroke: BLACK;
     -fx-opacity: 0.1;
 }
+
 
 .transition-drag-point:hover {
     -fx-cursor: hand;
