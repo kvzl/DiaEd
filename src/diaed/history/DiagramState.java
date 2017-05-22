@@ -1,6 +1,6 @@
-package application.history;
+package diaed.history;
 
-import application.model.DiagramElement;
+import diaed.model.DiagramElement;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
-package application.view;
+package diaed.view;
 
-import application.Store;
+import diaed.Store;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

@@ -1,7 +1,7 @@
-package application.model;
+package diaed.model;
 
-import application.Store;
-import application.viewModel.StateViewModel;
+import diaed.Store;
+import diaed.viewModel.StateViewModel;
 
 /**
  * Created by ucfan on 2017/3/28.

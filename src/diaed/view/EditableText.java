@@ -1,6 +1,6 @@
-package application.view;
+package diaed.view;
 
-import application.viewModel.DragHandler;
+import diaed.viewModel.DragHandler;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;

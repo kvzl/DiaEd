@@ -1,7 +1,7 @@
-package application.viewModel;
+package diaed.viewModel;
 
-import application.Store;
-import application.model.DiagramElement;
+import diaed.Store;
+import diaed.model.DiagramElement;
 import javafx.scene.Node;
 
 /**

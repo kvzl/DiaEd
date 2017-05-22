@@ -1,10 +1,12 @@
-package application.model;
+package diaed.model;
 
-import application.Store;
-import application.history.DiagramState;
-import application.history.Memento;
-import application.history.Originator;
-import application.viewModel.StateDiagramViewModel;
+import diaed.Store;
+import diaed.history.DiagramState;
+import diaed.history.Memento;
+import diaed.history.Originator;
+import diaed.util.Iterable;
+import diaed.util.Iterator;
+import diaed.viewModel.StateDiagramViewModel;
 
 public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator {
     // 狀態圖的狀態（子元素）

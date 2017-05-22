@@ -1,4 +1,4 @@
-package application.model;
+package diaed.util;
 
 /**
  * Created by ucfan on 2017/3/28.

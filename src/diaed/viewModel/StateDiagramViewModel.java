@@ -1,9 +1,9 @@
-package application.viewModel;
+package diaed.viewModel;
 
-import application.Store;
-import application.model.DiagramElement;
-import application.model.Iterator;
-import application.model.StateDiagram;
+import diaed.Store;
+import diaed.model.DiagramElement;
+import diaed.util.Iterator;
+import diaed.model.StateDiagram;
 
 /**
  * Created by ucfan on 2017/4/3.

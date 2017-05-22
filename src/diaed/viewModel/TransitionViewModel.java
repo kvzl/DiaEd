@@ -1,8 +1,8 @@
-package application.viewModel;
+package diaed.viewModel;
 
-import application.Store;
-import application.model.Transition;
-import application.view.EditableText;
+import diaed.Store;
+import diaed.model.Transition;
+import diaed.view.EditableText;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

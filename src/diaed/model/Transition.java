@@ -1,7 +1,7 @@
-package application.model;
+package diaed.model;
 
-import application.Store;
-import application.viewModel.TransitionViewModel;
+import diaed.Store;
+import diaed.viewModel.TransitionViewModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 

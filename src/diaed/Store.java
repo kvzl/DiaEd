@@ -1,15 +1,13 @@
-package application;
+package diaed;
 
-import application.history.EditHistory;
-import application.history.Memento;
-import application.model.DiagramElement;
-import application.model.State;
-import application.model.StateDiagram;
-import application.model.Transition;
-import application.view.Canvas;
-import application.view.EditableText;
-import application.view.Toolbar;
-import application.viewModel.ViewModel;
+import diaed.history.EditHistory;
+import diaed.history.Memento;
+import diaed.model.DiagramElement;
+import diaed.model.State;
+import diaed.model.StateDiagram;
+import diaed.model.Transition;
+import diaed.view.Canvas;
+import diaed.view.Toolbar;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;

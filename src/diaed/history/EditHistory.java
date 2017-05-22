@@ -1,4 +1,4 @@
-package application.history;
+package diaed.history;
 
 import java.util.Stack;
 

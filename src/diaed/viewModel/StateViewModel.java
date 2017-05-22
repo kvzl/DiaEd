@@ -1,8 +1,8 @@
-package application.viewModel;
+package diaed.viewModel;
 
-import application.Store;
-import application.model.State;
-import application.view.EditableText;
+import diaed.Store;
+import diaed.model.State;
+import diaed.view.EditableText;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;

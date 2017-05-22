@@ -1,4 +1,4 @@
-package application;
+package diaed;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

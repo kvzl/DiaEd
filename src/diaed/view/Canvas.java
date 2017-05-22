@@ -1,6 +1,6 @@
-package application.view;
+package diaed.view;
 
-import application.Store;
+import diaed.Store;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;

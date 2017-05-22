@@ -1,4 +1,4 @@
-package application.viewModel;
+package diaed.viewModel;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
