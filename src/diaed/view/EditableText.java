@@ -53,7 +53,8 @@ public class EditableText extends Group {
         this(xProperty.get(), yProperty.get());
 
         dragHandler = new DragHandler(this);
-        dragHandler.bindToPoint(this, xProperty, yProperty);
+        dragHandler.bindToPoint(this);
+        dragHandler.bindToPoint(xProperty, yProperty);
         this.setOnMousePressed(dragHandler.getOnPressed());
         this.setOnMouseDragged(dragHandler.getOnDragged());
     }

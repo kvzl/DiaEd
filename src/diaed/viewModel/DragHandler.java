@@ -60,6 +60,10 @@ public class DragHandler {
     }
 
 
+    /**
+     * 綁定位移座標
+     * @param node
+     */
     public void bindToPoint(Node node) {
         translateX.addListener(((observable, oldValue, newValue) -> {
             node.setTranslateX((double)newValue);
@@ -71,18 +75,21 @@ public class DragHandler {
     }
 
 
-    public void bindToPoint(Node node, DoubleProperty xProperty, DoubleProperty yProperty) {
+    /**
+     * 綁定位移座標
+     * @param xProperty
+     * @param yProperty
+     */
+    public void bindToPoint(DoubleProperty xProperty, DoubleProperty yProperty) {
         double initX = xProperty.get();
         double initY = yProperty.get();
 
         translateX.addListener(((observable, oldValue, newValue) -> {
             xProperty.set(initX + (double)newValue);
-            node.setTranslateX((double)newValue);
         }));
 
         translateY.addListener(((observable, oldValue, newValue) -> {
             yProperty.set(initY + (double)newValue);
-            node.setTranslateY((double)newValue);
         }));
     }
 

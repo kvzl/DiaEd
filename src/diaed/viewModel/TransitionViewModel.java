@@ -255,7 +255,8 @@ public class TransitionViewModel extends ViewModel<Transition> {
         public DragPoint(DoubleProperty xProperty, DoubleProperty yProperty) {
             super(xProperty.get(), yProperty.get(), 5);
             this.getStyleClass().add("transition-drag-point");
-            dragHandler.bindToPoint(this, xProperty, yProperty);
+            dragHandler.bindToPoint(this);
+            dragHandler.bindToPoint(xProperty, yProperty);
         }
 
         public void setOnPressed(EventHandler<MouseEvent> handler) {

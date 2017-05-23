@@ -25,12 +25,15 @@ public class StateViewModel extends ViewModel<State> {
 
     @Override
     public void draw(Store store) {
+        // 繪製圓圈
         circle = new Circle(model.getPositionX(), model.getPositionY(), 60);
         circle.getStyleClass().add("state-circle");
 
+        // 繪製輸入匡
         text = new EditableText(model.getPositionX(), model.getPositionY());
         text.setText(model.getName());
 
+        // 群組
         shape = new Group(circle, text);
 
         bindListeners(store);
@@ -41,7 +44,8 @@ public class StateViewModel extends ViewModel<State> {
     private void bindListeners(Store store) {
         dragHandler = new DragHandler(shape);
 
-        dragHandler.bindToPoint(shape, model.positionXProperty(), model.positionYProperty());
+        dragHandler.bindToPoint(shape);
+        dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
 
         circle.setOnMousePressed(event -> {
             store.saveHistory();
