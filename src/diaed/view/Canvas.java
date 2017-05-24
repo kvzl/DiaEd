@@ -1,8 +1,10 @@
 package diaed.view;
 
 import diaed.Store;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -33,15 +35,19 @@ public class Canvas extends AnchorPane {
 
     @FXML
     private void initialize() {
-        // 點擊到畫布時，取消選取狀態
-        this.setOnMouseClicked(event -> {
-            store.setSelected(null);
-            store.setEditing(null);
-        });
+        initEvents();
     }
 
     public void clear() {
         this.getChildren().clear();
+    }
+
+    private void initEvents() {
+        // 點擊到畫布時，取消選取狀態
+        setOnMouseClicked(event -> {
+            store.setSelected(null);
+            store.setEditing(null);
+        });
     }
 
 }

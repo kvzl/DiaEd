@@ -1,6 +1,7 @@
 package diaed.model;
 
 import diaed.Store;
+import diaed.view.TransitionView;
 import diaed.viewModel.TransitionViewModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -46,13 +47,6 @@ public class Transition extends DiagramElement {
         return destinationY;
     }
 
-    @Override
-    public void draw(Store store) {
-        if (viewModel == null) {
-            viewModel = new TransitionViewModel(this);
-        }
-        viewModel.draw(store);
-    }
 
     @Override
     public Transition clone() {

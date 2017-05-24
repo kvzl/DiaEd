@@ -1,6 +1,7 @@
 package diaed.model;
 
 import diaed.Store;
+import diaed.view.StateView;
 import diaed.viewModel.StateViewModel;
 
 /**
@@ -13,14 +14,6 @@ public class State extends DiagramElement {
         setPositionX(150);
         setPositionY(150);
         setName("STATE");
-    }
-
-    @Override
-    public void draw(Store store) {
-        if (viewModel == null) {
-            viewModel = new StateViewModel(this);
-        }
-        viewModel.draw(store);
     }
 
     @Override

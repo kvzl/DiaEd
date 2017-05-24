@@ -2,55 +2,39 @@ package diaed.viewModel;
 
 import diaed.Store;
 import diaed.model.State;
+import diaed.util.DragHandler;
 import diaed.view.EditableText;
-import javafx.scene.Group;
+import diaed.view.StateView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 
 /**
  * Created by ucfan on 2017/4/3.
  */
-public class StateViewModel extends ViewModel<State> {
+public class StateViewModel extends ViewModel<State, StateView> {
     private DragHandler dragHandler;
 
-    // 圓圈部分
-    private Circle circle;
-
-    // 文字部分
-    private EditableText text;
-
-    public StateViewModel(State model) {
-        super(model);
+    public StateViewModel(Store store, State model) {
+        super(store, model, new StateView(model));
     }
 
     @Override
-    public void draw(Store store) {
-        // 繪製圓圈
-        circle = new Circle(model.getPositionX(), model.getPositionY(), 60);
-        circle.getStyleClass().add("state-circle");
+    protected void bindListeners() {
+        State model = this.model.get();
 
-        // 繪製輸入匡
-        text = new EditableText(model.getPositionX(), model.getPositionY());
-        text.setText(model.getName());
+        Circle circle = view.getCircle();
+        EditableText text = view.getText();
 
-        // 群組
-        shape = new Group(circle, text);
+        dragHandler = new DragHandler(view);
 
-        bindListeners(store);
-
-        store.draw(shape);
-    }
-
-    private void bindListeners(Store store) {
-        dragHandler = new DragHandler(shape);
-
-        dragHandler.bindToPoint(shape);
+        dragHandler.bindToPoint(view);
         dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
 
         circle.setOnMousePressed(event -> {
             store.saveHistory();
             dragHandler.getOnPressed().handle(event);
         });
+
         circle.setOnMouseDragged(dragHandler.getOnDragged());
 
         circle.setOnMouseClicked(event -> {
@@ -75,7 +59,7 @@ public class StateViewModel extends ViewModel<State> {
 
         text.bindText(model.nameProperty());
 
-        text.setOnPressed(event -> {
+        text.setOnKeyIn(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 store.setEditing(null);
             }
@@ -88,17 +72,32 @@ public class StateViewModel extends ViewModel<State> {
 
         store.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == model) {
-                circle.getStyleClass().add("selected");
+                setCircleSelected(true);
             }
             else {
-                circle.getStyleClass().remove("selected");
+                setCircleSelected(false);
             }
         });
 
         store.editingProperty().addListener(((observable, oldValue, newValue) -> {
-            text.setEditable((newValue == model));
+            setTextEditable((newValue == model));
         }));
 
+    }
+
+    public void setCircleSelected(boolean selected) {
+        Circle circle = view.getCircle();
+
+        if (selected) {
+            circle.getStyleClass().add("selected");
+        }
+        else {
+            circle.getStyleClass().remove("selected");
+        }
+    }
+
+    public void setTextEditable(boolean editable) {
+        view.getText().setEditable(editable);
     }
 
 }

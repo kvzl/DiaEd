@@ -1,6 +1,6 @@
 package diaed.view;
 
-import diaed.viewModel.DragHandler;
+import diaed.util.DragHandler;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;
@@ -119,7 +119,7 @@ public class EditableText extends Group {
         return text.textProperty();
     }
 
-    public void setOnPressed(EventHandler<KeyEvent> handler) {
+    public void setOnKeyIn(EventHandler<KeyEvent> handler) {
         text.setOnKeyPressed(handler);
     }
 

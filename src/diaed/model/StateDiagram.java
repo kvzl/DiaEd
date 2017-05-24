@@ -6,11 +6,16 @@ import diaed.history.Memento;
 import diaed.history.Originator;
 import diaed.util.Iterable;
 import diaed.util.Iterator;
+import diaed.view.StateDiagramView;
 import diaed.viewModel.StateDiagramViewModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 
 public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator {
     // 狀態圖的狀態（子元素）
-    private DiagramState children = new DiagramState();
+//    private DiagramState children = new DiagramState();
+    private ObservableList<DiagramElement> children = FXCollections.observableArrayList();
 
     // 新增子元素
     public void add(DiagramElement element) {
@@ -36,13 +41,10 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         return children.get(index);
     }
 
-    @Override
-    public void draw(Store store) {
-        if (viewModel == null) {
-            viewModel = new StateDiagramViewModel(this);
-        }
-        viewModel.draw(store);
+    public void addListener(ListChangeListener<? super DiagramElement> change) {
+        children.addListener(change);
     }
+
 
     // 以 Memento 儲存目前狀態
     @Override
@@ -64,7 +66,8 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
     // 以 Memento 還原狀態
     @Override
     public void restore(Memento memento) {
-        children = memento.getState();
+//        children = memento.getState();
+        children.setAll(memento.getState());
     }
 
 
