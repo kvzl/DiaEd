@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
  * Created by ucfan on 2017/4/4.
  */
 public class EditableText extends Group {
+    // 長寬
     private DoubleProperty width = new SimpleDoubleProperty(110);
     private DoubleProperty height = new SimpleDoubleProperty(28);
     private Pane mask = new Pane();

@@ -1,13 +1,10 @@
 package diaed.model;
 
-import diaed.Store;
 import diaed.history.DiagramState;
 import diaed.history.Memento;
 import diaed.history.Originator;
 import diaed.util.Iterable;
 import diaed.util.Iterator;
-import diaed.view.StateDiagramView;
-import diaed.viewModel.StateDiagramViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

@@ -7,7 +7,6 @@ import diaed.model.State;
 import diaed.model.StateDiagram;
 import diaed.model.Transition;
 import diaed.view.Canvas;
-import diaed.view.StateView;
 import diaed.view.Toolbar;
 import diaed.viewModel.StateDiagramViewModel;
 import diaed.viewModel.StateViewModel;
@@ -31,26 +30,15 @@ public class Store {
     // 工具列
     private Toolbar toolbar;
 
-    // 記錄目前選取的元件
+    // 記錄目前選取的元素
     private ObjectProperty<DiagramElement> selected = new SimpleObjectProperty<>();
 
+    // 記錄目前正在編輯的元素
     private ObjectProperty<DiagramElement> editing = new SimpleObjectProperty<>();
-
-    public DiagramElement getEditing() {
-        return this.editing.get();
-    }
-
-    public void setEditing(DiagramElement editing) {
-        this.editing.set(editing);
-    }
-
-    public ObjectProperty<DiagramElement> editingProperty() {
-        return editing;
-    }
 
 
     // 狀態圖 data
-    private ObjectProperty<StateDiagram> diagram;
+    private StateDiagram diagram;
     private StateDiagramViewModel vm;
 
     // 編輯紀錄
@@ -61,8 +49,19 @@ public class Store {
     public Store() {
         canvas = new Canvas(this);
         toolbar = new Toolbar(this);
-        vm = new StateDiagramViewModel(this, new StateDiagram());
-        diagram = vm.modelProperty();
+
+        setDiagram(new StateDiagram());
+    }
+
+
+    public void setDiagram(StateDiagram diagram) {
+        canvas.clear();
+        // 建立 View Model
+        this.vm = new StateDiagramViewModel(this, diagram);
+
+        // 監聽 model，當 model 變動時重新繪製
+        this.diagram = vm.getModel();
+        this.diagram.addListener(c -> redraw());
     }
 
     /* getters 和 setters */
@@ -83,6 +82,19 @@ public class Store {
         return this.selected.get();
     }
 
+    public DiagramElement getEditing() {
+        return this.editing.get();
+    }
+
+    public void setEditing(DiagramElement editing) {
+        this.editing.set(editing);
+    }
+
+    public ObjectProperty<DiagramElement> editingProperty() {
+        return editing;
+    }
+
+
 
     // 監看目前選取的元件
     public ObjectProperty<DiagramElement> selectedProperty() {
@@ -95,7 +107,9 @@ public class Store {
         canvas.getChildren().add(node);
     }
 
-    // 重繪制
+
+    // 重新繪製畫面
+    // NOTE: 可優化成只重新繪製有差異的部分
     public void redraw() {
         canvas.clear();
         vm.initialize();
@@ -105,67 +119,67 @@ public class Store {
     // 將目前狀態存入編輯紀錄
     // 進行變更前呼叫此方法，之後可 redo
     public void saveHistory() {
-        histories.push(diagram.get().save());
+        histories.push(diagram.save());
     }
 
 
+    // 新建狀態圖
     public void newDiagram() {
-        vm.setModel(new StateDiagram());
-        redraw();
+        setDiagram(new StateDiagram());
         histories.reset();
     }
 
+    // 讀檔（讀取預先定義的範例）
     public void loadDiagram() {
-        vm.setModel(getTemplateDiagram());
-        redraw();
+        setDiagram(getTemplateDiagram());
         histories.reset();
     }
 
+    // 復原
     public void undo() {
         if (histories.undoable()) {
-            Memento currentState = diagram.get().save();
+            Memento currentState = diagram.save();
             Memento newState = histories.undo(currentState);
-            diagram.get().restore(newState);
-            redraw();
+            diagram.restore(newState);
         }
     }
 
+    // 還原
     public void redo() {
         if (histories.redoable()) {
-            Memento currentState = diagram.get().save();
+            Memento currentState = diagram.save();
             Memento newState = histories.redo(currentState);
-            diagram.get().restore(newState);
-            redraw();
+            diagram.restore(newState);
         }
     }
 
-
+    // 編輯選取的元素
     public void editElement() {
         setEditing(getSelected());
     }
 
+    // 刪除選取的元素
     public void deleteElement() {
         saveHistory();
-        diagram.get().remove(getSelected());
+        diagram.remove(getSelected());
         setSelected(null);
-        redraw();
     }
 
-
+    // 在畫面上新增 state
     public void addState() {
         saveHistory();
         State state = new State();
-        StateViewModel vm = new StateViewModel(this, state);
-        diagram.get().add(state);
-   }
+        new StateViewModel(this, state);
+        diagram.add(state);
+    }
 
+    // 在畫面上新增 transition
     public void addTransition() {
         saveHistory();
         Transition transition = new Transition();
-        TransitionViewModel vm = new TransitionViewModel(this, transition);
-        diagram.get().add(transition);
+        new TransitionViewModel(this, transition);
+        diagram.add(transition);
     }
-
 
 
     // 範本資料

@@ -15,14 +15,13 @@ public class StateDiagramViewModel extends ViewModel<StateDiagram, StateDiagramV
 
     @Override
     protected void draw() {
-        StateDiagram model = this.model.get();
-
         Iterator<DiagramElement> iter = model.iterator();
 
         while (iter.hasNext()) {
             DiagramElement element = iter.next();
             String type = element.getClass().getSimpleName();
 
+            // 根據 element 的類型建立對應的 View Model
             switch (type) {
                 case "State":
                     new StateViewModel(store, (State)element);
@@ -36,7 +35,4 @@ public class StateDiagramViewModel extends ViewModel<StateDiagram, StateDiagramV
         }
     }
 
-    @Override
-    protected void bindListeners() {
-    }
 }

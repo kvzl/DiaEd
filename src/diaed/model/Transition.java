@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleDoubleProperty;
  * Created by ucfan on 2017/3/28.
  */
 public class Transition extends DiagramElement {
+    // 座標（尾端）
     private DoubleProperty destinationX = new SimpleDoubleProperty();
     private DoubleProperty destinationY = new SimpleDoubleProperty();
 

@@ -20,8 +20,6 @@ public class StateViewModel extends ViewModel<State, StateView> {
 
     @Override
     protected void bindListeners() {
-        State model = this.model.get();
-
         Circle circle = view.getCircle();
         EditableText text = view.getText();
 

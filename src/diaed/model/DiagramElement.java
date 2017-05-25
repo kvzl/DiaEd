@@ -12,9 +12,11 @@ import javafx.beans.property.StringProperty;
  * Created by ucfan on 2017/3/28.
  */
 public abstract class DiagramElement {
+    // 座標
     private DoubleProperty positionX = new SimpleDoubleProperty();
     private DoubleProperty positionY = new SimpleDoubleProperty();
 
+    // 名稱
     private StringProperty name = new SimpleStringProperty("");
 
     // View Model 負責處理繪圖、事件綁定、資料綁定

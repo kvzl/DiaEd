@@ -1,6 +1,5 @@
 package diaed.view;
 
-import diaed.Store;
 import javafx.scene.Group;
 
 /**

@@ -104,27 +104,13 @@ public class Toolbar extends ToolBar {
 
 
     public void initEvents() {
-        // 開新檔案（就是清空啦）
         setOnNew(event -> store.newDiagram());
-
-        // 讀檔（讀取預先定義的範例）
         setOnLoad(event -> store.loadDiagram());
-
-        // 復原
         setOnUndo(event -> store.undo());
-
-        // 還原
         setOnRedo(event -> store.redo());
-
         setOnEdit(event -> store.editElement());
-
-        // 刪除
         setOnDelete(event -> store.deleteElement());
-
-        // 在畫面上新增 state
         setOnAddState(event -> store.addState());
-
-        // 在畫面上新增 transition
         setOnAddTranstion(event -> store.addTransition());
     }
 

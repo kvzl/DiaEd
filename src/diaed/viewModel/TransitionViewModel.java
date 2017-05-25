@@ -20,8 +20,6 @@ public class TransitionViewModel extends ViewModel<Transition, TransitionView> {
 
     @Override
     protected void bindListeners() {
-        Transition model = this.model.get();
-
         TransitionView.Arrow arrow = view.getArrow();
         TransitionView.DragPoint startPoint = view.getStartPoint();
         TransitionView.DragPoint endPoint = view.getEndPoint();
