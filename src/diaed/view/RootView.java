@@ -25,6 +25,9 @@ public class RootView extends View {
     public RootView(Stage primaryStage) {
         this.root = new BorderPane();
 	    this.primaryStage = primaryStage;
+
+	    // 通常不會在建構子呼叫 create，只有這裡例外
+	    create();
     }
 
     public Canvas getCanvas() {
@@ -45,7 +48,8 @@ public class RootView extends View {
         root.setTop(toolbar);
     }
 
-    public void draw() {
+    @Override
+    public void create() {
         try {
             Scene scene = new Scene(root,840,680);
             scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());

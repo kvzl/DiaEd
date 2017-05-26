@@ -1,11 +1,6 @@
 package diaed.view;
 
 import diaed.model.State;
-import javafx.beans.property.StringProperty;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
 /**
@@ -27,7 +22,7 @@ public class StateView extends View {
     }
 
     @Override
-    public void draw() {
+    public void create() {
         circle = new Circle(model.getPositionX(), model.getPositionY(), 60);
         circle.getStyleClass().add("state-circle");
 

@@ -1,9 +1,5 @@
 package diaed.model;
 
-import diaed.Store;
-import diaed.view.StateView;
-import diaed.viewModel.StateViewModel;
-
 /**
  * Created by ucfan on 2017/3/28.
  */
@@ -24,6 +20,7 @@ public class State extends DiagramElement {
         state.setName(new String(getName()));
         return state;
     }
+
 }
 
 

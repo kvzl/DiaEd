@@ -39,7 +39,7 @@ public class TransitionView extends View {
     }
 
     @Override
-    public void draw() {
+    public void create() {
         arrow = new Arrow(model.getPositionX(), model.getPositionY(), model.getDestinationX(), model.getDestinationY());
         arrow.getStyleClass().add("transition");
 

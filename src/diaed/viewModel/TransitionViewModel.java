@@ -18,6 +18,7 @@ public class TransitionViewModel extends ViewModel<Transition, TransitionView> {
         super(store, model, new TransitionView(model));
     }
 
+
     @Override
     protected void bindListeners() {
         Transition model = this.model.get();

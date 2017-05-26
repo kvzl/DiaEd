@@ -24,6 +24,11 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         children.remove(element);
     }
 
+    public int indexOf(DiagramElement element) {
+        return children.indexOf(element);
+    }
+
+
     // 取得子元素（以索引）
     public DiagramElement get(int index) {
         return children.get(index);

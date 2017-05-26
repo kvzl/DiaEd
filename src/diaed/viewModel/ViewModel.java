@@ -1,6 +1,7 @@
 package diaed.viewModel;
 
 import diaed.Store;
+import diaed.model.DiagramElement;
 import diaed.view.View;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -13,7 +14,7 @@ import javafx.beans.property.SimpleObjectProperty;
  * View Model 負責資料綁定、事件綁定及 View 的繪製
  */
 
-abstract public class ViewModel<M, V extends View> {
+abstract public class ViewModel<M extends DiagramElement, V extends View> {
     protected ObjectProperty<M> model;
     protected V view;
     protected Store store;
@@ -26,8 +27,10 @@ abstract public class ViewModel<M, V extends View> {
         initialize();
     }
 
-    public void setModel(M model) {
-        this.model.set(model);
+    public void setModel(M newModel) {
+        beforeUpdate();
+        this.model.set(newModel);
+        updated();
     }
 
     public M getModel() {
@@ -40,17 +43,32 @@ abstract public class ViewModel<M, V extends View> {
 
     public V getView() { return view; }
 
-    public void initialize() {
-        draw();
+    private void initialize() {
+        beforeCreate();
+        createView();
         bindListeners();
-        mounted();
+        draw();
+        created();
     }
 
-    protected void draw() {
-        view.draw();
+    public void update() {
+        beforeUpdate();
+        createView();
+        bindListeners();
+        draw();
+        updated();
     }
-    protected void bindListeners() {};
-    protected void mounted() {
+
+
+    /* hooks */
+
+    protected void beforeCreate() {}
+    protected void createView() { view.create(); }
+    protected void bindListeners() {}
+    protected void draw() {
         store.draw(view);
     }
+    protected void created() {}
+    protected void beforeUpdate() {}
+    protected void updated() {}
 }

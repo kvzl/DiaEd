@@ -13,5 +13,5 @@ public class StateDiagramView extends View {
     }
 
     @Override
-    public void draw() {}
+    public void create() {}
 }

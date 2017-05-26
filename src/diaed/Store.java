@@ -6,8 +6,6 @@ import diaed.model.DiagramElement;
 import diaed.model.State;
 import diaed.model.StateDiagram;
 import diaed.model.Transition;
-import diaed.viewModel.StateViewModel;
-import diaed.viewModel.TransitionViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -58,6 +56,7 @@ public class Store {
     }
 
     public void setEditing(DiagramElement editing) {
+        saveHistory();
         this.editing.set(editing);
     }
 
@@ -65,7 +64,6 @@ public class Store {
         return editing;
     }
 
-    // 監看目前選取的元件
     public ObjectProperty<DiagramElement> selectedProperty() {
         return this.selected;
     }
@@ -136,7 +134,6 @@ public class Store {
     public void addState() {
         saveHistory();
         State state = new State();
-        new StateViewModel(this, state);
         diagram.get().add(state);
     }
 
@@ -144,7 +141,6 @@ public class Store {
     public void addTransition() {
         saveHistory();
         Transition transition = new Transition();
-        new TransitionViewModel(this, transition);
         diagram.get().add(transition);
     }
 

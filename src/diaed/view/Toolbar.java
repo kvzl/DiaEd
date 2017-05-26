@@ -63,7 +63,7 @@ public class Toolbar extends ToolBar {
 
     @FXML
 	private void initialize() {
-        initEvents();
+        bindListeners();
     }
 
     public void setOnNew(EventHandler<ActionEvent> event) {
@@ -103,7 +103,7 @@ public class Toolbar extends ToolBar {
     }
 
 
-    public void initEvents() {
+    public void bindListeners() {
         setOnNew(event -> store.newDiagram());
         setOnLoad(event -> store.loadDiagram());
         setOnUndo(event -> store.undo());

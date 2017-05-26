@@ -19,23 +19,51 @@ public class StateViewModel extends ViewModel<State, StateView> {
     }
 
     @Override
+    protected void beforeUpdate() {
+
+    }
+
+    @Override
+    protected void created() {
+        model.addListener(((observable, oldValue, newValue) -> {
+            State state = observable.getValue();
+//            System.out.println(state.getPositionX() + ", " + state.getPositionY() + ": " + state.getName());
+        }));
+    }
+
+
+    @Override
     protected void bindListeners() {
         State model = this.model.get();
+
         Circle circle = view.getCircle();
+
         EditableText text = view.getText();
+        text.setText(model.getName());
+
 
         dragHandler = new DragHandler(view);
 
+        // 透過同步 translate 值，使元件可以被拖移
         dragHandler.bindToPoint(view);
-        dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
 
+        // 按下時準備拖曳
         circle.setOnMousePressed(event -> {
             store.saveHistory();
+            store.setSelected(model);
             dragHandler.getOnPressed().handle(event);
         });
 
+        // 拖曳中
         circle.setOnMouseDragged(dragHandler.getOnDragged());
 
+        // 釋放拖曳時更新 model 資料
+        circle.setOnMouseReleased(event -> {
+            model.positionXProperty().set(model.getPositionX() + dragHandler.getTranslateX());
+            model.positionYProperty().set(model.getPositionY() + dragHandler.getTranslateY());
+        });
+
+        // 圓圈點兩下可編輯文字
         circle.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 store.setEditing(model);
@@ -44,10 +72,10 @@ public class StateViewModel extends ViewModel<State, StateView> {
                 store.setEditing(null);
             }
 
-            store.setSelected(model);
             event.consume();
         });
 
+        // 點擊文字可選取，點兩下編輯
         text.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 store.setEditing(model);
@@ -56,7 +84,6 @@ public class StateViewModel extends ViewModel<State, StateView> {
             event.consume();
         });
 
-        text.bindText(model.nameProperty());
 
         text.setOnKeyIn(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -68,6 +95,14 @@ public class StateViewModel extends ViewModel<State, StateView> {
                 }
             }
         });
+
+        // 輸入文字時更新 model
+        text.textProperty().addListener(((observable, oldValue, newValue) -> {
+            State newModel = model.clone();
+            newModel.setName(newValue);
+            setModel(newModel);
+        }));
+
 
         store.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == model) {

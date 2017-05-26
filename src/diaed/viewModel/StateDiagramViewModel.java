@@ -7,6 +7,7 @@ import diaed.model.StateDiagram;
 import diaed.model.Transition;
 import diaed.util.Iterator;
 import diaed.view.StateDiagramView;
+import javafx.beans.property.ObjectProperty;
 
 public class StateDiagramViewModel extends ViewModel<StateDiagram, StateDiagramView> {
     public StateDiagramViewModel(Store store, StateDiagram model) {
@@ -14,7 +15,7 @@ public class StateDiagramViewModel extends ViewModel<StateDiagram, StateDiagramV
     }
 
     @Override
-    protected void draw() {
+    protected void createView() {
         StateDiagram model = this.model.get();
         Iterator<DiagramElement> iter = model.iterator();
 

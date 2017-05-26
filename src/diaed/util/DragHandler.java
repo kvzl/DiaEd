@@ -77,6 +77,7 @@ public class DragHandler {
 
     /**
      * 綁定位移座標
+     * 註：通常是需要在拖曳時同步更新 model 才會用到，如果是釋放拖曳才要更新的話就不會用到這個方法
      * @param xProperty
      * @param yProperty
      */
@@ -91,6 +92,14 @@ public class DragHandler {
         translateY.addListener(((observable, oldValue, newValue) -> {
             yProperty.set(initY + (double)newValue);
         }));
+    }
+
+    public double getTranslateX() {
+        return translateX.get();
+    }
+
+    public double getTranslateY() {
+        return translateY.get();
     }
 
 }

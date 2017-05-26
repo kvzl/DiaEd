@@ -19,6 +19,18 @@ public class Root {
     private StateDiagramViewModel stateDiagramVM;
 
 
+    public void setModel(StateDiagram diagram) {
+        stateDiagramVM.setModel(diagram);
+    }
+
+    public StateDiagram getModel() {
+        return stateDiagramVM.getModel();
+    }
+
+    public ObjectProperty<StateDiagram> modelProperty() {
+        return stateDiagramVM.modelProperty();
+    }
+
     public Root(Store store, Stage primaryStage) {
         this.store = store;
         store.setRoot(this);
@@ -26,7 +38,6 @@ public class Root {
         this.view = new RootView(primaryStage);
         view.setCanvas(new Canvas(store));
         view.setToolbar(new Toolbar(store));
-        view.draw();
     }
 
 
@@ -43,31 +54,17 @@ public class Root {
     // NOTE: 可優化成只重新繪製有差異的部分
     public void redraw() {
         clear();
-        stateDiagramVM.initialize();
+        stateDiagramVM.update();
     }
 
     public void initialize() {
         StateDiagram diagram = new StateDiagram();
         diagram.addListener(c -> redraw());
-
         stateDiagramVM = new StateDiagramViewModel(store, diagram);
         stateDiagramVM.modelProperty().addListener(((observable, oldValue, newValue) -> {
             observable.getValue().addListener(c -> redraw());
             redraw();
         }));
-
         store.setDiagram(stateDiagramVM.getModel());
-    }
-
-    public void setModel(StateDiagram diagram) {
-        stateDiagramVM.setModel(diagram);
-    }
-
-    public StateDiagram getModel() {
-        return stateDiagramVM.getModel();
-    }
-
-    public ObjectProperty<StateDiagram> modelProperty() {
-        return stateDiagramVM.modelProperty();
     }
 }
