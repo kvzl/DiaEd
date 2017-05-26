@@ -11,12 +11,16 @@ import javafx.beans.property.ObjectProperty;
 
 public class StateDiagramViewModel extends ViewModel<StateDiagram, StateDiagramView> {
     public StateDiagramViewModel(Store store, StateDiagram model) {
-        super(store, model, new StateDiagramView(model));
+        super(store, model);
     }
 
     @Override
     protected void createView() {
         StateDiagram model = this.model.get();
+
+        view = new StateDiagramView(model);
+        view.create();
+
         Iterator<DiagramElement> iter = model.iterator();
 
         while (iter.hasNext()) {
@@ -37,4 +41,8 @@ public class StateDiagramViewModel extends ViewModel<StateDiagram, StateDiagramV
         }
     }
 
+    @Override
+    protected void draw() {
+        store.draw(view);
+    }
 }

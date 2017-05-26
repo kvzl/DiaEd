@@ -15,7 +15,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
     private DragHandler dragHandler;
 
     public StateViewModel(Store store, State model) {
-        super(store, model, new StateView(model));
+        super(store, model);
     }
 
     @Override
@@ -33,6 +33,12 @@ public class StateViewModel extends ViewModel<State, StateView> {
 
 
     @Override
+    protected void createView() {
+        view = new StateView(model.get());
+        view.create();
+    }
+
+    @Override
     protected void bindListeners() {
         State model = this.model.get();
 
@@ -46,6 +52,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
 
         // 透過同步 translate 值，使元件可以被拖移
         dragHandler.bindToPoint(view);
+        dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
 
         // 按下時準備拖曳
         circle.setOnMousePressed(event -> {
@@ -57,11 +64,10 @@ public class StateViewModel extends ViewModel<State, StateView> {
         // 拖曳中
         circle.setOnMouseDragged(dragHandler.getOnDragged());
 
-        // 釋放拖曳時更新 model 資料
-        circle.setOnMouseReleased(event -> {
-            model.positionXProperty().set(model.getPositionX() + dragHandler.getTranslateX());
-            model.positionYProperty().set(model.getPositionY() + dragHandler.getTranslateY());
-        });
+//        circle.setOnMouseReleased(event -> {
+//            model.positionXProperty().set(model.getPositionX() + dragHandler.getTranslateX());
+//            model.positionYProperty().set(model.getPositionY() + dragHandler.getTranslateY());
+//        });
 
         // 圓圈點兩下可編輯文字
         circle.setOnMouseClicked(event -> {
@@ -117,6 +123,11 @@ public class StateViewModel extends ViewModel<State, StateView> {
             setTextEditable((newValue == model));
         }));
 
+    }
+
+    @Override
+    protected void draw() {
+        store.draw(view);
     }
 
     public void setCircleSelected(boolean selected) {

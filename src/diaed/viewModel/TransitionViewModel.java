@@ -15,9 +15,15 @@ public class TransitionViewModel extends ViewModel<Transition, TransitionView> {
     private DragHandler rootDragHandler;
 
     public TransitionViewModel(Store store, Transition model) {
-        super(store, model, new TransitionView(model));
+        super(store, model);
     }
 
+
+    @Override
+    protected void createView() {
+        view = new TransitionView(model.get());
+        view.create();
+    }
 
     @Override
     protected void bindListeners() {
@@ -108,5 +114,10 @@ public class TransitionViewModel extends ViewModel<Transition, TransitionView> {
             text.setEditable((newValue == model));
         }));
 
+    }
+
+    @Override
+    protected void draw() {
+        store.draw(view);
     }
 }

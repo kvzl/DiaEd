@@ -19,10 +19,9 @@ abstract public class ViewModel<M extends DiagramElement, V extends View> {
     protected V view;
     protected Store store;
 
-    public ViewModel(Store store, M model, V view) {
+    public ViewModel(Store store, M model) {
         this.store = store;
         this.model = new SimpleObjectProperty<M>(model);
-        this.view = view;
 
         initialize();
     }
@@ -63,11 +62,13 @@ abstract public class ViewModel<M extends DiagramElement, V extends View> {
     /* hooks */
 
     protected void beforeCreate() {}
-    protected void createView() { view.create(); }
+//    protected void createView() { view.create(); }
+    protected abstract void createView();
     protected void bindListeners() {}
-    protected void draw() {
-        store.draw(view);
-    }
+    protected abstract void draw();
+//    protected void draw() {
+//        store.draw(view);
+//    }
     protected void created() {}
     protected void beforeUpdate() {}
     protected void updated() {}
