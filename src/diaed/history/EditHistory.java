@@ -1,5 +1,7 @@
 package diaed.history;
 
+import diaed.command.Command;
+
 import java.util.Stack;
 
 /**
@@ -14,48 +16,61 @@ import java.util.Stack;
  */
 
 public class EditHistory {
-    private Stack<Memento> undoStack = new Stack<>();
-    private Stack<Memento> redoStack = new Stack<>();
+    // 可復原的紀錄
+    private Stack<Command> undoStack = new Stack<>();
+
+    // 可重做的紀錄
+    private Stack<Command> redoStack = new Stack<>();
 
 
-    // 判斷是否可 ctrl-z
+    // 判斷是否可復原
     public boolean undoable() {
         return !undoStack.empty();
     }
 
-    // 判斷是否可 ctrl-y
+    // 判斷是否可重做
     public boolean redoable() {
         return !redoStack.empty();
     }
 
 
-    // 新增一筆紀錄
-    public void push(Memento current) {
-        undoStack.push(current);
+    public void invoke(Command command) {
+        // 執行指令
+        command.exec();
 
-        if (!redoStack.empty()) {
-            redoStack.clear();
-        }
+        // 紀錄指令
+        undoStack.push(command);
+
+        // 每次執行指令時重置可還原的指令
+        redoStack.clear();
     }
 
-    // ctrl-z
-    public Memento undo(Memento current) {
+    // 復原
+    public void undo() {
         if (!undoable()) {
-            return null;
+            return;
         }
-        Memento memento = undoStack.pop();
-        redoStack.push(current);
-        return memento;
+
+        // 取出最新一筆紀錄進行復原
+        Command command = undoStack.pop();
+        command.undo();
+
+        // 紀錄一筆可重做的指令
+        redoStack.push(command);
     }
 
-    // ctrl-y
-    public Memento redo(Memento current) {
+    // 重做
+    public void redo() {
         if (!redoable()) {
-            return null;
+            return;
         }
-        Memento memento = redoStack.pop();
-        undoStack.push(current);
-        return memento;
+
+        // 取出最新一筆紀錄進行重做
+        Command command = redoStack.pop();
+        command.redo();
+
+        // 紀錄一筆可復原的指令
+        undoStack.push(command);
     }
 
     // 重置

@@ -62,13 +62,9 @@ abstract public class ViewModel<M extends DiagramElement, V extends View> {
     /* hooks */
 
     protected void beforeCreate() {}
-//    protected void createView() { view.create(); }
     protected abstract void createView();
     protected void bindListeners() {}
     protected abstract void draw();
-//    protected void draw() {
-//        store.draw(view);
-//    }
     protected void created() {}
     protected void beforeUpdate() {}
     protected void updated() {}

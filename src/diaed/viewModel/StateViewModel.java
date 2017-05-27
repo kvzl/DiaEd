@@ -6,6 +6,7 @@ import diaed.util.DragHandler;
 import diaed.view.EditableText;
 import diaed.view.StateView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
 /**
@@ -27,7 +28,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
     protected void created() {
         model.addListener(((observable, oldValue, newValue) -> {
             State state = observable.getValue();
-//            System.out.println(state.getPositionX() + ", " + state.getPositionY() + ": " + state.getName());
+            System.out.println(state.getPositionX() + ", " + state.getPositionY() + ": " + state.getName());
         }));
     }
 
@@ -52,7 +53,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
 
         // 透過同步 translate 值，使元件可以被拖移
         dragHandler.bindToPoint(view);
-        dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
+//        dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
 
         // 按下時準備拖曳
         circle.setOnMousePressed(event -> {
@@ -64,13 +65,14 @@ public class StateViewModel extends ViewModel<State, StateView> {
         // 拖曳中
         circle.setOnMouseDragged(dragHandler.getOnDragged());
 
-//        circle.setOnMouseReleased(event -> {
-//            model.positionXProperty().set(model.getPositionX() + dragHandler.getTranslateX());
-//            model.positionYProperty().set(model.getPositionY() + dragHandler.getTranslateY());
-//        });
+        circle.setOnMouseReleased(event -> {
+            System.out.println("release");
+            model.positionXProperty().set(model.getPositionX() + dragHandler.getTranslateX());
+            model.positionYProperty().set(model.getPositionY() + dragHandler.getTranslateY());
+        });
 
         // 圓圈點兩下可編輯文字
-        circle.setOnMouseClicked(event -> {
+        circle.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2) {
                 store.setEditing(model);
             }

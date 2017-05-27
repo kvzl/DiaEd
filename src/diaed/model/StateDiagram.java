@@ -68,7 +68,6 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
     // 以 Memento 還原狀態
     @Override
     public void restore(Memento memento) {
-//        children = memento.getState();
         children.setAll(memento.getState());
     }
 

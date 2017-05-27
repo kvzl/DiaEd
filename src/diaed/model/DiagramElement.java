@@ -1,6 +1,5 @@
 package diaed.model;
 
-import diaed.viewModel.ViewModel;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,9 +16,6 @@ public abstract class DiagramElement {
 
     // 名稱
     private StringProperty name = new SimpleStringProperty("");
-
-    // View Model 負責處理繪圖、事件綁定、資料綁定
-    protected ViewModel viewModel;
 
     public double getPositionX() {
         return positionX.get();
@@ -43,14 +39,6 @@ public abstract class DiagramElement {
 
     public DoubleProperty positionYProperty() {
         return positionY;
-    }
-
-    public ViewModel getViewModel() {
-        return viewModel;
-    }
-
-    public void setViewModel(ViewModel viewModel) {
-        this.viewModel = viewModel;
     }
 
     public String getName() {

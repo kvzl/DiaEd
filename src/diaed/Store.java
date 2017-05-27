@@ -1,7 +1,7 @@
 package diaed;
 
+import diaed.command.*;
 import diaed.history.EditHistory;
-import diaed.history.Memento;
 import diaed.model.DiagramElement;
 import diaed.model.State;
 import diaed.model.StateDiagram;
@@ -36,8 +36,11 @@ public class Store {
 
 
 
-
     /* getters 和 setters */
+
+    public StateDiagram getDiagram() {
+        return diagram.get();
+    }
 
     public void setRoot(Root root) {
         this.root = root;
@@ -78,7 +81,7 @@ public class Store {
     // 將目前狀態存入編輯紀錄
     // 進行變更前呼叫此方法，之後可 redo
     public void saveHistory() {
-        histories.push(diagram.get().save());
+        histories.invoke(new SaveHistoryCommand(this));
     }
 
     public void setDiagram(StateDiagram diagram) {
@@ -88,65 +91,60 @@ public class Store {
         this.diagram = root.modelProperty();
     }
 
+    public void resetHistory() {
+        histories.reset();
+    }
+
+
     // 新建狀態圖
     public void newDiagram() {
         setDiagram(new StateDiagram());
-        histories.reset();
+        resetHistory();
     }
 
     // 讀檔（讀取預先定義的範例）
     public void loadDiagram() {
         setDiagram(getTemplateDiagram());
-        histories.reset();
+        resetHistory();
     }
 
     // 復原
     public void undo() {
         if (histories.undoable()) {
-            Memento currentState = diagram.get().save();
-            Memento newState = histories.undo(currentState);
-            diagram.get().restore(newState);
+            histories.undo();
         }
     }
 
     // 還原
     public void redo() {
         if (histories.redoable()) {
-            Memento currentState = diagram.get().save();
-            Memento newState = histories.redo(currentState);
-            diagram.get().restore(newState);
+            histories.redo();
         }
     }
 
     // 編輯選取的元素
     public void editElement() {
-        setEditing(getSelected());
+        histories.invoke(new EditElementCommand(this));
     }
 
     // 刪除選取的元素
     public void deleteElement() {
-        saveHistory();
-        diagram.get().remove(getSelected());
-        setSelected(null);
+        histories.invoke(new DeleteElementCommand(this));
     }
 
     // 在畫面上新增 state
     public void addState() {
-        saveHistory();
-        State state = new State();
-        diagram.get().add(state);
+        histories.invoke(new AddStateCommand(this));
     }
 
     // 在畫面上新增 transition
     public void addTransition() {
-        saveHistory();
-        Transition transition = new Transition();
-        diagram.get().add(transition);
+        histories.invoke(new AddTransitionCommand(this));
     }
 
 
     // 範本資料
-    private StateDiagram getTemplateDiagram() {
+    public StateDiagram getTemplateDiagram() {
         State state1 = new State();
         state1.setPositionX(200);
         state1.setPositionY(300);
@@ -171,5 +169,8 @@ public class Store {
 
         return diagram;
     }
+
+
+
 }
 
