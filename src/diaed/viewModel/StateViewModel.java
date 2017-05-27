@@ -40,7 +40,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
 
         // 透過同步 translate 值，使元件可以被拖移
         dragHandler.bindToPoint(view);
-//        dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
+        dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
 
         // 按下時準備拖曳
         circle.setOnMousePressed(event -> {
@@ -52,10 +52,10 @@ public class StateViewModel extends ViewModel<State, StateView> {
         // 拖曳中
         circle.setOnMouseDragged(dragHandler.getOnDragged());
 
-        circle.setOnMouseReleased(event -> {
-            model.positionXProperty().set(model.getPositionX() + dragHandler.getTranslateX());
-            model.positionYProperty().set(model.getPositionY() + dragHandler.getTranslateY());
-        });
+//        circle.setOnMouseReleased(event -> {
+//            model.positionXProperty().set(model.getPositionX());
+//            model.positionYProperty().set(model.getPositionY());
+//        });
 
         // 圓圈點兩下可編輯文字
         circle.setOnMouseClicked((MouseEvent event) -> {

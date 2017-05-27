@@ -1,7 +1,7 @@
 package diaed.model;
 
 
-import diaed.builder.StateBuilder;
+import diaed.builder.AbstractBuilder;
 
 /**
  * Created by ucfan on 2017/3/28.
@@ -15,7 +15,7 @@ public class State extends DiagramElement {
         setName("STATE");
     }
 
-    public State(StateBuilder builder) {
+    public State(Builder builder) {
         setPositionX(builder.getPositionX());
         setPositionY(builder.getPositionY());
         setName(builder.getName());
@@ -28,6 +28,42 @@ public class State extends DiagramElement {
         state.setPositionY(getPositionY());
         state.setName(new String(getName()));
         return state;
+    }
+
+
+
+    public static class Builder implements AbstractBuilder<State> {
+        private double positionX;
+        private double positionY;
+        private String name;
+
+        public double getPositionX() { return positionX; }
+        public double getPositionY() { return positionY; }
+        public String getName() { return name; }
+
+        @Override
+        public State build() {
+            return new State(this);
+        }
+
+        @Override
+        public AbstractBuilder setPosition(double X, double Y) {
+            positionX = X;
+            positionY = Y;
+            return this;
+        }
+
+        @Override
+        public AbstractBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        @Override
+        public AbstractBuilder setDestination(double X, double Y) {
+            // do nothing
+            return this;
+        }
     }
 
 }

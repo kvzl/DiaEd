@@ -1,7 +1,9 @@
 package diaed.builder;
 
 import diaed.model.DiagramElement;
+import diaed.model.State;
 import diaed.model.StateDiagram;
+import diaed.model.Transition;
 
 /**
  * Created by Administrator on 2017/5/26.
@@ -14,17 +16,17 @@ public class Template1 implements DiagramTemplate {
     }
 
     public void construct(){
-        DiagramElement state1 = new StateBuilder()
+        DiagramElement state1 = new State.Builder()
                 .setName("State1")
                 .setPosition(200, 300)
                 .build();
 
-        DiagramElement state2 = new StateBuilder()
+        DiagramElement state2 = new State.Builder()
                 .setName("State2")
                 .setPosition(600, 300)
                 .build();
 
-        DiagramElement trans2 = new TransitionBuilder()
+        DiagramElement trans2 = new Transition.Builder()
                 .setName("trans2")
                 .setPosition(260, 300)
                 .setDestination(540, 300)

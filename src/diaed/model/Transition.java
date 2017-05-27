@@ -1,6 +1,6 @@
 package diaed.model;
 
-import diaed.builder.TransitionBuilder;
+import diaed.builder.AbstractBuilder;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -22,7 +22,7 @@ public class Transition extends DiagramElement {
         setName("TRANSITION");
     }
 
-    public Transition(TransitionBuilder builder) {
+    public Transition(Builder builder) {
         setPositionX(builder.getPositionX());
         setPositionY(builder.getPositionY());
         setDestinationX(builder.getDestinationX());
@@ -67,5 +67,43 @@ public class Transition extends DiagramElement {
     }
 
 
+    public static class Builder implements AbstractBuilder<Transition> {
+        private double positionX;
+        private double positionY;
+        private double destinationX;
+        private double destinationY;
+        private String name;
+
+        public double getPositionX() { return positionX; }
+        public double getPositionY() { return positionY; }
+        public double getDestinationX() { return destinationX; }
+        public double getDestinationY() { return destinationY; }
+        public String getName() { return name; }
+
+        @Override
+        public Transition build() {
+            return new Transition(this);
+        }
+
+        @Override
+        public AbstractBuilder setPosition(double X, double Y) {
+            positionX = X;
+            positionY = Y;
+            return this;
+        }
+
+        @Override
+        public AbstractBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        @Override
+        public AbstractBuilder setDestination(double X, double Y) {
+            destinationX = X;
+            destinationY = Y;
+            return this;
+        }
+    }
 }
 
