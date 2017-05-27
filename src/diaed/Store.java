@@ -1,11 +1,11 @@
 package diaed;
 
+import diaed.builder.DiagramTemplate;
+import diaed.builder.Template1;
 import diaed.command.*;
 import diaed.history.EditHistory;
 import diaed.model.DiagramElement;
-import diaed.model.State;
 import diaed.model.StateDiagram;
-import diaed.model.Transition;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -145,29 +145,8 @@ public class Store {
 
     // 範本資料
     public StateDiagram getTemplateDiagram() {
-        State state1 = new State();
-        state1.setPositionX(200);
-        state1.setPositionY(300);
-        state1.setName("state1");
-
-        State state2 = new State();
-        state2.setPositionX(600);
-        state2.setPositionY(300);
-        state2.setName("state2");
-
-        Transition trans1 = new Transition();
-        trans1.setPositionX(260);
-        trans1.setPositionY(300);
-        trans1.setDestinationX(540);
-        trans1.setDestinationY(300);
-        trans1.setName("trans2");
-
-        StateDiagram diagram = new StateDiagram();
-        diagram.add(state1);
-        diagram.add(state2);
-        diagram.add(trans1);
-
-        return diagram;
+        DiagramTemplate template = new Template1();
+        return template.getDiagram();
     }
 
 

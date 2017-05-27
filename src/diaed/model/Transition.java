@@ -1,5 +1,6 @@
 package diaed.model;
 
+import diaed.builder.TransitionBuilder;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -19,6 +20,14 @@ public class Transition extends DiagramElement {
         setDestinationX(350);
         setDestinationY(150);
         setName("TRANSITION");
+    }
+
+    public Transition(TransitionBuilder builder) {
+        setPositionX(builder.getPositionX());
+        setPositionY(builder.getPositionY());
+        setDestinationX(builder.getDestinationX());
+        setDestinationY(builder.getDestinationY());
+        setName(builder.getName());
     }
 
     public double getDestinationX() {
@@ -56,5 +65,7 @@ public class Transition extends DiagramElement {
         transition.setName(new String(getName()));
         return transition;
     }
+
+
 }
 

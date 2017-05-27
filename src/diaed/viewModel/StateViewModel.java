@@ -19,19 +19,6 @@ public class StateViewModel extends ViewModel<State, StateView> {
         super(store, model);
     }
 
-    @Override
-    protected void beforeUpdate() {
-
-    }
-
-    @Override
-    protected void created() {
-        model.addListener(((observable, oldValue, newValue) -> {
-            State state = observable.getValue();
-            System.out.println(state.getPositionX() + ", " + state.getPositionY() + ": " + state.getName());
-        }));
-    }
-
 
     @Override
     protected void createView() {
@@ -66,7 +53,6 @@ public class StateViewModel extends ViewModel<State, StateView> {
         circle.setOnMouseDragged(dragHandler.getOnDragged());
 
         circle.setOnMouseReleased(event -> {
-            System.out.println("release");
             model.positionXProperty().set(model.getPositionX() + dragHandler.getTranslateX());
             model.positionYProperty().set(model.getPositionY() + dragHandler.getTranslateY());
         });
