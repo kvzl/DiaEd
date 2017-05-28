@@ -3,6 +3,7 @@ package diaed.model;
 
 import diaed.builder.AbstractBuilder;
 
+
 /**
  * Created by ucfan on 2017/3/28.
  */
@@ -21,6 +22,7 @@ public class State extends DiagramElement {
         setName(builder.getName());
     }
 
+
     @Override
     public State clone() {
         State state = new State();
@@ -29,7 +31,6 @@ public class State extends DiagramElement {
         state.setName(new String(getName()));
         return state;
     }
-
 
 
     public static class Builder implements AbstractBuilder<State> {
@@ -66,6 +67,32 @@ public class State extends DiagramElement {
         }
     }
 
+
+    @Override
+    public SerializableElement serialize() {
+        return new SerializableElement(this);
+    }
+
+    public static class SerializableElement extends DiagramElement.SerializableElement {
+        private double positionX;
+        private double positionY;
+        private String name;
+
+        public SerializableElement(State element) {
+            positionX = element.getPositionX();
+            positionY = element.getPositionY();
+            name = element.getName();
+        }
+
+        @Override
+        public State deserialize() {
+            State state = new State();
+            state.setPositionX(positionX);
+            state.setPositionY(positionY);
+            state.setName(name);
+            return state;
+        }
+    }
 }
 
 

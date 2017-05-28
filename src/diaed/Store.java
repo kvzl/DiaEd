@@ -1,7 +1,8 @@
 package diaed;
 
 import diaed.builder.DiagramTemplate;
-import diaed.builder.Template1;
+import diaed.builder.bridge.FileSystemPersistenceImplementor;
+import diaed.builder.bridge.Persistence;
 import diaed.command.*;
 import diaed.history.EditHistory;
 import diaed.model.DiagramElement;
@@ -11,7 +12,10 @@ import diaed.scene.StartupScene;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 
 /**
@@ -22,6 +26,8 @@ import javafx.stage.Stage;
 /* 一個 Mediator 的概念 */
 
 public class Store {
+    private Persistence persistence = new Persistence(new FileSystemPersistenceImplementor());
+
     private EditorScene root;
 
     // 狀態圖 data
@@ -107,6 +113,32 @@ public class Store {
         histories.invoke(new SaveHistoryCommand(this));
     }
 
+    public void saveDiagram() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("State Diagram (*.diaed)", "*.diaed");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        persistence.save(file.getAbsolutePath(), diagram.get());
+
+    }
+
+    public void loadDiagram() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("State Diagram (*.diaed)", "*.diaed");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showOpenDialog(primaryStage);
+
+        StateDiagram loaded = (StateDiagram) persistence.findById(file.getAbsolutePath());
+        gotoEditor(loaded);
+    }
+
     public void setDiagram(StateDiagram diagram) {
         root.setModel(diagram);
         this.diagram = root.modelProperty();
@@ -152,15 +184,14 @@ public class Store {
     }
 
 
-    // 範本資料
-    public StateDiagram getTemplateDiagram() {
-        DiagramTemplate template = new Template1();
-        return template.getDiagram();
-    }
-
     public void gotoEditor() {
         EditorScene vm = new EditorScene(this, primaryStage);
         vm.initialize();
+    }
+
+    public void gotoEditor(StateDiagram loadedDiagram) {
+        EditorScene vm = new EditorScene(this, primaryStage);
+        vm.load(loadedDiagram);
     }
 
     public void gotoStartup() {

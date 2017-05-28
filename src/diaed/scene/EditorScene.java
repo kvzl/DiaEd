@@ -1,9 +1,7 @@
 package diaed.scene;
 
 import diaed.Store;
-import diaed.model.DiagramElement;
 import diaed.model.StateDiagram;
-import diaed.util.Iterator;
 import diaed.view.Canvas;
 import diaed.view.EditorView;
 import diaed.view.Toolbar;
@@ -19,6 +17,7 @@ public class EditorScene {
     private Store store;
     private EditorView view;
     private StateDiagramViewModel stateDiagramVM;
+    private StateDiagram diagram;
 
     public void setModel(StateDiagram diagram) {
         stateDiagramVM.setModel(diagram);
@@ -59,7 +58,9 @@ public class EditorScene {
     }
 
     public void initialize() {
-        StateDiagram diagram = store.getSelectedTemplate().getDiagram();
+        if (diagram == null) {
+            diagram = store.getSelectedTemplate().getDiagram();
+        }
 
         diagram.addListener(c -> redraw());
         stateDiagramVM = new StateDiagramViewModel(store, diagram);
@@ -69,5 +70,10 @@ public class EditorScene {
         }));
         store.setDiagram(stateDiagramVM.getModel());
         store.resetHistory();
+    }
+
+    public void load(StateDiagram diagram) {
+        this.diagram = diagram;
+        initialize();
     }
 }

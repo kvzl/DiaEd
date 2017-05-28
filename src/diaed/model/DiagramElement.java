@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.io.Serializable;
+
 
 /**
  * Created by ucfan on 2017/3/28.
@@ -55,5 +57,11 @@ public abstract class DiagramElement {
 
     public DiagramElement clone() {
         return this.clone();
+    };
+
+    abstract public SerializableElement serialize();
+
+    abstract static class SerializableElement implements Serializable {
+        abstract DiagramElement deserialize();
     };
 }

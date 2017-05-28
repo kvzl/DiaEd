@@ -9,9 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StateDiagram extends DiagramElement implements Iterable<DiagramElement>, Originator {
     // 狀態圖的狀態（子元素）
-//    private DiagramState children = new DiagramState();
     private ObservableList<DiagramElement> children = FXCollections.observableArrayList();
 
     // 新增子元素
@@ -82,7 +84,6 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         return new StateDiagramIterator();
     }
 
-
     public class StateDiagramIterator implements Iterator<DiagramElement> {
         private int index = 0;
 
@@ -107,5 +108,30 @@ public class StateDiagram extends DiagramElement implements Iterable<DiagramElem
         }
     }
 
+
+    @Override
+    public SerializableElement serialize() {
+        return new SerializableElement(this);
+    }
+
+    public static class SerializableElement extends DiagramElement.SerializableElement {
+        private List<DiagramElement.SerializableElement> children = new ArrayList<>();
+        public SerializableElement(StateDiagram element) {
+            Iterator<DiagramElement> iter = element.iterator();
+            while (iter.hasNext()) {
+                children.add(iter.next().serialize());
+            }
+
+        }
+
+        @Override
+        public StateDiagram deserialize() {
+            StateDiagram diagram = new StateDiagram();
+            for (DiagramElement.SerializableElement element : children) {
+                diagram.add(element.deserialize());
+            }
+            return diagram;
+        }
+    }
 
 }

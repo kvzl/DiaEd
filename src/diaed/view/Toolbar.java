@@ -105,6 +105,7 @@ public class Toolbar extends ToolBar {
 
     public void bindListeners() {
         setOnNew(event -> store.gotoStartup());
+        setOnSave(event -> store.saveDiagram());
         setOnUndo(event -> store.undo());
         setOnRedo(event -> store.redo());
         setOnEdit(event -> store.editElement());

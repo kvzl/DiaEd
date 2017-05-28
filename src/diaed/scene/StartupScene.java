@@ -3,7 +3,6 @@ package diaed.scene;
 import diaed.Store;
 import diaed.builder.*;
 import diaed.view.TemplateView;
-import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,8 +16,10 @@ public class StartupScene extends BorderPane {
 
     private Scene scene;
 
+    private Button loadButton;
     private Button exitButton;
     private Button createButton;
+
 
     public StartupScene(Store store, Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -37,8 +38,10 @@ public class StartupScene extends BorderPane {
             primaryStage.centerOnScreen();
             primaryStage.show();
 
+            loadButton = (Button) scene.lookup("#loadButton");
             exitButton = (Button) scene.lookup("#exitButton");
             createButton = (Button) scene.lookup("#createButton");
+
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -60,6 +63,10 @@ public class StartupScene extends BorderPane {
     }
 
     private void bindListeners() {
+        loadButton.setOnAction(event -> {
+            store.loadDiagram();
+        });
+
         // 離開程式
         exitButton.setOnAction(event -> {
             System.exit(0);

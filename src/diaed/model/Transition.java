@@ -105,5 +105,40 @@ public class Transition extends DiagramElement {
             return this;
         }
     }
+
+
+
+
+    @Override
+    public SerializableElement serialize() {
+        return new SerializableElement(this);
+    }
+
+    public static class SerializableElement extends DiagramElement.SerializableElement {
+        private double positionX;
+        private double positionY;
+        private double destinationX;
+        private double destinationY;
+        private String name;
+
+        public SerializableElement(Transition element) {
+            positionX = element.getPositionX();
+            positionY = element.getPositionY();
+            destinationX = element.getDestinationX();
+            destinationY = element.getDestinationY();
+            name = element.getName();
+        }
+
+        @Override
+        public Transition deserialize() {
+            Transition transition = new Transition();
+            transition.setPositionX(positionX);
+            transition.setPositionY(positionY);
+            transition.setDestinationX(destinationX);
+            transition.setDestinationY(destinationY);
+            transition.setName(name);
+            return transition;
+        }
+    }
 }
 
