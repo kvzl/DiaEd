@@ -17,7 +17,7 @@ public class Canvas extends AnchorPane {
         this.store = store;
 
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/Canvas.fxml")
+                getClass().getResource("/editor/Canvas.fxml")
         );
 
         fxmlLoader.setRoot(this);
@@ -43,7 +43,7 @@ public class Canvas extends AnchorPane {
     private void bindListeners() {
         // 點擊到畫布時，取消選取狀態
         setOnMouseClicked(event -> {
-            store.setSelected(null);
+            store.setSelectedElement(null);
             store.setEditing(null);
         });
     }

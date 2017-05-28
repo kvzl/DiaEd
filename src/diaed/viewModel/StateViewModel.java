@@ -45,7 +45,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
         // 按下時準備拖曳
         circle.setOnMousePressed(event -> {
             store.saveHistory();
-            store.setSelected(model);
+            store.setSelectedElement(model);
             dragHandler.getOnPressed().handle(event);
         });
 
@@ -74,7 +74,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
             if (event.getClickCount() == 2) {
                 store.setEditing(model);
             }
-            store.setSelected(model);
+            store.setSelectedElement(model);
             event.consume();
         });
 
@@ -98,7 +98,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
         }));
 
 
-        store.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        store.selectedElementProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == model) {
                 setCircleSelected(true);
             }

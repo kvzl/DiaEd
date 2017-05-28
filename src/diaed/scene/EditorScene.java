@@ -1,23 +1,24 @@
-package diaed;
+package diaed.scene;
 
+import diaed.Store;
+import diaed.model.DiagramElement;
 import diaed.model.StateDiagram;
+import diaed.util.Iterator;
 import diaed.view.Canvas;
-import diaed.view.RootView;
+import diaed.view.EditorView;
 import diaed.view.Toolbar;
 import diaed.viewModel.StateDiagramViewModel;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
 /**
  * Created by ucfan on 2017/5/26.
  */
-public class Root {
+public class EditorScene {
     private Store store;
-    private RootView view;
+    private EditorView view;
     private StateDiagramViewModel stateDiagramVM;
-
 
     public void setModel(StateDiagram diagram) {
         stateDiagramVM.setModel(diagram);
@@ -31,11 +32,11 @@ public class Root {
         return stateDiagramVM.modelProperty();
     }
 
-    public Root(Store store, Stage primaryStage) {
+    public EditorScene(Store store, Stage primaryStage) {
         this.store = store;
         store.setRoot(this);
 
-        this.view = new RootView(primaryStage);
+        this.view = new EditorView(primaryStage);
         view.setCanvas(new Canvas(store));
         view.setToolbar(new Toolbar(store));
     }
@@ -58,13 +59,15 @@ public class Root {
     }
 
     public void initialize() {
-        StateDiagram diagram = new StateDiagram();
+        StateDiagram diagram = store.getSelectedTemplate().getDiagram();
+
         diagram.addListener(c -> redraw());
         stateDiagramVM = new StateDiagramViewModel(store, diagram);
         stateDiagramVM.modelProperty().addListener(((observable, oldValue, newValue) -> {
-            observable.getValue().addListener(c -> redraw());
+            newValue.addListener(c -> redraw());
             redraw();
         }));
         store.setDiagram(stateDiagramVM.getModel());
+        store.resetHistory();
     }
 }

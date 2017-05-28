@@ -17,7 +17,7 @@ public class DeleteElementCommand extends Command {
 
     @Override
     public void execute() {
-        diagram.remove(store.getSelected());
-        store.setSelected(null);
+        diagram.remove(store.getSelectedElement());
+        store.setSelectedElement(null);
     }
 }

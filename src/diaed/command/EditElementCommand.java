@@ -12,6 +12,6 @@ public class EditElementCommand extends Command {
     }
     @Override
     public void execute() {
-        store.setEditing(store.getSelected());
+        store.setEditing(store.getSelectedElement());
     }
 }

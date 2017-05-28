@@ -74,7 +74,7 @@ public class TransitionViewModel extends ViewModel<Transition, TransitionView> {
                 store.setEditing(model);
                 text.requestFocus();
             }
-            store.setSelected(model);
+            store.setSelectedElement(model);
             event.consume();
         });
 
@@ -98,11 +98,11 @@ public class TransitionViewModel extends ViewModel<Transition, TransitionView> {
                 text.requestFocus();
             }
 
-            store.setSelected(model);
+            store.setSelectedElement(model);
             event.consume();
         });
 
-        store.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+        store.selectedElementProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue == model) {
                 arrow.getStyleClass().add("selected");
             } else {

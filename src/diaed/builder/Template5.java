@@ -8,15 +8,15 @@ import diaed.model.Transition;
 /**
  * Created by Administrator on 2017/5/26.
  */
-public class Template1 implements DiagramTemplate {
+public class Template5 implements DiagramTemplate {
     private StateDiagram diagram = new StateDiagram();
 
     @Override
     public String getName() {
-        return "Template1";
+        return "Template5";
     }
 
-    public Template1() {
+    public Template5() {
         construct();
     }
 

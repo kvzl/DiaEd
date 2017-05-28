@@ -47,7 +47,7 @@ public class Toolbar extends ToolBar {
         this.store = store;
 
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/Toolbar.fxml")
+                getClass().getResource("/editor/Toolbar.fxml")
         );
 
         fxmlLoader.setRoot(this);
@@ -104,8 +104,7 @@ public class Toolbar extends ToolBar {
 
 
     public void bindListeners() {
-        setOnNew(event -> store.newDiagram());
-        setOnLoad(event -> store.loadDiagram());
+        setOnNew(event -> store.gotoStartup());
         setOnUndo(event -> store.undo());
         setOnRedo(event -> store.redo());
         setOnEdit(event -> store.editElement());

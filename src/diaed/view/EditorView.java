@@ -1,9 +1,5 @@
 package diaed.view;
 
-import diaed.Store;
-import diaed.view.Canvas;
-import diaed.view.Toolbar;
-import diaed.view.View;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -11,7 +7,7 @@ import javafx.stage.Stage;
 /**
  * Created by ucfan on 2017/5/25.
  */
-public class RootView extends View {
+public class EditorView extends View {
     private Stage primaryStage;
 
     private BorderPane root;
@@ -22,7 +18,7 @@ public class RootView extends View {
     // 工具列
     private Toolbar toolbar;
 
-    public RootView(Stage primaryStage) {
+    public EditorView(Stage primaryStage) {
         this.root = new BorderPane();
 	    this.primaryStage = primaryStage;
 
@@ -52,8 +48,9 @@ public class RootView extends View {
     public void create() {
         try {
             Scene scene = new Scene(root,840,680);
-            scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/editor/style.css").toExternalForm());
             primaryStage.setScene(scene);
+            primaryStage.centerOnScreen();
             primaryStage.show();
         } catch(Exception e) {
             e.printStackTrace();

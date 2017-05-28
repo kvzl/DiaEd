@@ -8,4 +8,5 @@ import diaed.model.StateDiagram;
 public interface DiagramTemplate {
     void construct();
     StateDiagram getDiagram();
+    String getName();
 }

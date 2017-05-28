@@ -6,9 +6,12 @@ import diaed.command.*;
 import diaed.history.EditHistory;
 import diaed.model.DiagramElement;
 import diaed.model.StateDiagram;
+import diaed.scene.EditorScene;
+import diaed.scene.StartupScene;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
+import javafx.stage.Stage;
 
 
 /**
@@ -19,21 +22,30 @@ import javafx.scene.Node;
 /* 一個 Mediator 的概念 */
 
 public class Store {
-    private Root root;
+    private EditorScene root;
 
     // 狀態圖 data
     private ObjectProperty<StateDiagram> diagram = new SimpleObjectProperty<>();
 
-    // 記錄目前選取的元素
-    private ObjectProperty<DiagramElement> selected = new SimpleObjectProperty<>();
+    // 紀錄目前選取的元素
+    private ObjectProperty<DiagramElement> selectedElement = new SimpleObjectProperty<>(null);
 
-    // 記錄目前正在編輯的元素
+    // 紀錄目前正在編輯的元素
     private ObjectProperty<DiagramElement> editing = new SimpleObjectProperty<>();
+
+    // 紀錄目前選取的範本
+    private ObjectProperty<DiagramTemplate> selectedTemplate = new SimpleObjectProperty<>(null);
+
 
     // 編輯紀錄
     // 用來 undo/redo
     private EditHistory histories = new EditHistory();
 
+    private Stage primaryStage;
+
+    public Store(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
 
     /* getters 和 setters */
@@ -42,16 +54,16 @@ public class Store {
         return diagram.get();
     }
 
-    public void setRoot(Root root) {
+    public void setRoot(EditorScene root) {
         this.root = root;
     }
 
-    public void setSelected(DiagramElement selected) {
-        this.selected.set(selected);
+    public void setSelectedElement(DiagramElement selectedElement) {
+        this.selectedElement.set(selectedElement);
     }
 
-    public DiagramElement getSelected() {
-        return this.selected.get();
+    public DiagramElement getSelectedElement() {
+        return this.selectedElement.get();
     }
 
     public DiagramElement getEditing() {
@@ -67,10 +79,21 @@ public class Store {
         return editing;
     }
 
-    public ObjectProperty<DiagramElement> selectedProperty() {
-        return this.selected;
+    public DiagramTemplate getSelectedTemplate() {
+        return selectedTemplate.get();
     }
 
+    public ObjectProperty<DiagramElement> selectedElementProperty() {
+        return this.selectedElement;
+    }
+
+    public ObjectProperty<DiagramTemplate> selectedTemplateProperty() {
+        return selectedTemplate;
+    }
+
+    public void setSelectedTemplate(DiagramTemplate selectedTemplate) {
+        this.selectedTemplate.set(selectedTemplate);
+    }
 
 
     // 繪製（將元件加入到畫布中）
@@ -85,8 +108,6 @@ public class Store {
     }
 
     public void setDiagram(StateDiagram diagram) {
-        // 清空畫面
-        root.clear();
         root.setModel(diagram);
         this.diagram = root.modelProperty();
     }
@@ -95,18 +116,6 @@ public class Store {
         histories.reset();
     }
 
-
-    // 新建狀態圖
-    public void newDiagram() {
-        setDiagram(new StateDiagram());
-        resetHistory();
-    }
-
-    // 讀檔（讀取預先定義的範例）
-    public void loadDiagram() {
-        setDiagram(getTemplateDiagram());
-        resetHistory();
-    }
 
     // 復原
     public void undo() {
@@ -149,7 +158,13 @@ public class Store {
         return template.getDiagram();
     }
 
+    public void gotoEditor() {
+        EditorScene vm = new EditorScene(this, primaryStage);
+        vm.initialize();
+    }
 
-
+    public void gotoStartup() {
+        new StartupScene(this, primaryStage);
+    }
 }
 
