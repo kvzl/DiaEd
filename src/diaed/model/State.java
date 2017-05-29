@@ -48,20 +48,20 @@ public class State extends DiagramElement {
         }
 
         @Override
-        public AbstractBuilder setPosition(double X, double Y) {
+        public Builder setPosition(double X, double Y) {
             positionX = X;
             positionY = Y;
             return this;
         }
 
         @Override
-        public AbstractBuilder setName(String name) {
+        public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
         @Override
-        public AbstractBuilder setDestination(double X, double Y) {
+        public Builder setDestination(double X, double Y) {
             // do nothing
             return this;
         }
