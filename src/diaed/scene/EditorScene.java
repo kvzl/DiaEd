@@ -49,6 +49,10 @@ public class EditorScene {
         view.getCanvas().getChildren().add(node);
     }
 
+    public void remove(Node node) {
+        view.getCanvas().getChildren().remove(node);
+    }
+
 
     // 重新繪製畫面
     // NOTE: 可優化成只重新繪製有差異的部分

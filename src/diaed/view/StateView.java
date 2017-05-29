@@ -16,6 +16,8 @@ public class StateView extends View {
 
     private State model;
 
+    public StateView() {}
+
     public StateView(State model) {
         this.model = model;
         // 繪製圓圈
@@ -23,6 +25,7 @@ public class StateView extends View {
 
     @Override
     public void create() {
+        System.out.println("create");
         circle = new Circle(model.getPositionX(), model.getPositionY(), 60);
         circle.getStyleClass().add("state-circle");
 
@@ -41,6 +44,5 @@ public class StateView extends View {
     public EditableText getText() {
         return text;
     }
-
 
 }

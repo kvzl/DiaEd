@@ -7,4 +7,7 @@ import javafx.scene.Group;
  */
 public abstract class View extends Group {
     abstract public void create();
+    public View getInstance() {
+        return this;
+    }
 }

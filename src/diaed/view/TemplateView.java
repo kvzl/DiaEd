@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.VBox;
 
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 
 /**
@@ -20,6 +21,9 @@ import java.io.IOException;
 public class TemplateView extends VBox {
     @FXML
     Label templateName;
+
+    @FXML
+    ImageView thumb;
 
     private DiagramTemplate template;
     private Store store;
@@ -64,7 +68,6 @@ public class TemplateView extends VBox {
                 setSelected(false);
             }
         }));
-
     }
 
     private void setSelected(boolean selected) {

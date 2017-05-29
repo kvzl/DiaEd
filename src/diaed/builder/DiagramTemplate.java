@@ -9,4 +9,5 @@ public interface DiagramTemplate {
     void construct();
     StateDiagram getDiagram();
     String getName();
+    String getThumb();
 }

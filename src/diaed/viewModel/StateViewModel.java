@@ -1,6 +1,8 @@
 package diaed.viewModel;
 
 import diaed.Store;
+import diaed.decorator.SelectedState;
+import diaed.decorator.UnselectedState;
 import diaed.model.State;
 import diaed.util.DragHandler;
 import diaed.view.EditableText;
@@ -22,7 +24,7 @@ public class StateViewModel extends ViewModel<State, StateView> {
 
     @Override
     protected void createView() {
-        view = new StateView(model.get());
+        view = new UnselectedState(new StateView(model.get()));
         view.create();
     }
 
@@ -36,10 +38,10 @@ public class StateViewModel extends ViewModel<State, StateView> {
         text.setText(model.getName());
 
 
-        dragHandler = new DragHandler(view);
+        dragHandler = new DragHandler(view.getInstance());
 
         // 透過同步 translate 值，使元件可以被拖移
-        dragHandler.bindToPoint(view);
+        dragHandler.bindToPoint(view.getInstance());
         dragHandler.bindToPoint(model.positionXProperty(), model.positionYProperty());
 
         // 按下時準備拖曳
@@ -122,16 +124,23 @@ public class StateViewModel extends ViewModel<State, StateView> {
         Circle circle = view.getCircle();
 
         if (selected) {
-            circle.getStyleClass().add("selected");
+            store.destroy(view);
+            view = new SelectedState((StateView)view.getInstance());
+            store.draw(view);
+
         }
         else {
-            circle.getStyleClass().remove("selected");
+            store.destroy(view);
+            view = new UnselectedState((StateView)view.getInstance());
+            store.draw(view);
         }
     }
+
 
     public void setTextEditable(boolean editable) {
         view.getText().setEditable(editable);
     }
 
 }
+
 

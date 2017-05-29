@@ -46,4 +46,9 @@ public class Template5 implements DiagramTemplate {
     public StateDiagram getDiagram() {
         return diagram;
     }
+
+    @Override
+    public String getThumb() {
+        return "@startup/template.png";
+    }
 }
