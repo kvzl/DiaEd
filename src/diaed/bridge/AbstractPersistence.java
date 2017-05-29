@@ -1,4 +1,4 @@
-package diaed.builder.bridge;
+package diaed.bridge;
 
 import diaed.model.DiagramElement;
 

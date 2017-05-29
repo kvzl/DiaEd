@@ -1,8 +1,8 @@
 package diaed;
 
 import diaed.builder.DiagramTemplate;
-import diaed.builder.bridge.FileSystemPersistenceImplementor;
-import diaed.builder.bridge.Persistence;
+import diaed.bridge.FileSystemPersistenceImplementor;
+import diaed.bridge.Persistence;
 import diaed.command.*;
 import diaed.history.EditHistory;
 import diaed.model.DiagramElement;
