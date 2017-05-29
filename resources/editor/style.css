@@ -78,13 +78,15 @@ Toolbar Label {
     -fx-effect: dropshadow(three-pass-box, rgba(8, 129, 163, 0.4), 15, 0.5, 0, 0) !important;
 }
 
+.unselected {
+    -fx-effect: el-shadow;
+}
 
 .transition > *,
 .state-circle
 {
     -fx-stroke: line-color;
     -fx-stroke-width: line-width;
-    -fx-effect: el-shadow;
     -fx-cursor: hand;
 }
 

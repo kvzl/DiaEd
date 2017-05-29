@@ -107,6 +107,10 @@ public class Store {
         root.add(node);
     }
 
+    public void destroy(Node node) {
+        root.remove(node);
+    }
+
     // 將目前狀態存入編輯紀錄
     // 進行變更前呼叫此方法，之後可 redo
     public void saveHistory() {

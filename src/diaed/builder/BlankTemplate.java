@@ -19,4 +19,9 @@ public class BlankTemplate implements DiagramTemplate {
     public String getName() {
         return "Blank";
     }
+
+    @Override
+    public String getThumb() {
+        return null;
+    }
 }
